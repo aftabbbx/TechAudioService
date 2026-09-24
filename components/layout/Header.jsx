@@ -94,9 +94,9 @@ export function Header() {
             aria-label="AudioTechServices Home"
           >
             <img
-              src="/uploads/home/ATS logo.svg"
+              src="/logo.png"
               alt="AudioTechServices Logo"
-              style={{ height: "36px", width: "auto", objectFit: "contain" }}
+              style={{ maxHeight: "36px", width: "auto", maxWidth: "200px", objectFit: "contain" }}
               className="transition-transform duration-300 group-hover:scale-[1.02]"
             />
           </Link>

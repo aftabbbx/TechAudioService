@@ -88,9 +88,10 @@ export function MobileMenu({ isOpen, onClose, pathname }) {
           style={{ borderColor: "var(--border)" }}
         >
           <img
-            src="/uploads/home/ATS logo.svg"
+            src="/logo.png"
             alt="AudioTechServices Logo"
-            className="h-8 w-auto object-contain"
+            className="h-10 w-auto object-contain"
+            style={{ maxHeight: "40px", maxWidth: "160px" }}
           />
           <button
             ref={closeRef}

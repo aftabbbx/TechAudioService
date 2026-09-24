@@ -41,10 +41,10 @@ export function Footer() {
             <div className="mb-5">
               <Link href="/" aria-label="AudioTechServices Home">
                 <img
-                  src="/uploads/home/ATS logo.svg"
+                  src="/logo.png"
                   alt="AudioTechServices Logo"
-                  className="h-10 w-auto object-contain"
-                  style={{ filter: "brightness(0) invert(1)", opacity: 0.9 }}
+                  className="w-auto object-contain bg-white/10 p-1.5 rounded"
+                  style={{ maxHeight: "45px" }}
                 />
               </Link>
             </div>

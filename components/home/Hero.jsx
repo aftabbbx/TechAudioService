@@ -311,14 +311,15 @@ export function Hero() {
                 {/* Large ATS logo mark */}
                 <div className="mb-8">
                   <img
-                    src="/uploads/home/ATS logo.svg"
+                    src="/logo.png"
                     alt="ATS"
+                    className="bg-white/10 p-3 rounded-lg"
                     style={{
-                      width: "160px",
+                      maxWidth: "200px",
                       height: "auto",
+                      maxHeight: "80px",
                       objectFit: "contain",
-                      filter: "brightness(0) invert(1)",
-                      opacity: 0.9,
+                      opacity: 0.95,
                     }}
                   />
                 </div>
