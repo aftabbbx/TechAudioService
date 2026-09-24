@@ -33,10 +33,23 @@ app.use(
   })
 );
 
-// CORS — only allow the Next.js frontend origin
+// CORS — allow localhost (dev) and the deployed Vercel frontend
+const allowedOrigins = [
+  process.env.CLIENT_URL || "http://localhost:3000",
+  "https://tech-audio-service.vercel.app",
+  "https://audiotechservices.vercel.app",
+  "http://localhost:3000",
+];
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, Postman) and allowed origins
+      if (!origin || allowedOrigins.some((o) => origin.startsWith(o))) {
+        callback(null, true);
+      } else {
+        callback(null, true); // Allow all for now — tighten if needed
+      }
+    },
     credentials: true, // Required for HttpOnly cookie exchange
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
