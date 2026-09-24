@@ -40,7 +40,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-padding" style={{ backgroundColor: "var(--primary-deeper)", color: "white" }}>
+      <section className="pb-16 lg:pb-24 pt-8 lg:pt-12" style={{ backgroundColor: "var(--primary-deeper)", color: "white" }}>
         <div className="container-custom">
           <AnimatedSection>
             <div className="max-w-3xl mx-auto text-center mb-12">

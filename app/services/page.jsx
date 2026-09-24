@@ -53,7 +53,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="section-padding" style={{ backgroundColor: "var(--surface)" }}>
+      <section className="pb-16 lg:pb-24 pt-8 lg:pt-12" style={{ backgroundColor: "var(--surface)" }}>
         <div className="container-custom">
           <div className="grid lg:grid-cols-3 gap-8">
             {mainServices.map((service, index) => (

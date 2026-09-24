@@ -68,7 +68,7 @@ export default async function ProductsPage() {
         </div>
       </section>
 
-      <section className="section-padding" style={{ backgroundColor: "var(--background)" }}>
+      <section className="pb-16 lg:pb-24 pt-8 lg:pt-12" style={{ backgroundColor: "var(--background)" }}>
         <div className="container-custom">
           <ProductGrid products={products} categories={productCategories} />
         </div>
