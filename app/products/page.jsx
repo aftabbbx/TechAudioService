@@ -27,6 +27,12 @@ async function getProducts() {
 
     const data = await res.json();
     if (data.success && data.products?.length > 0) {
+      const formatUrl = (url) => {
+        if (!url) return undefined;
+        if (url.startsWith("/")) return `${apiUrl}${url}`;
+        return url;
+      };
+
       // Map API shape → ProductCard shape (same as data/products.js)
       return data.products.map((p) => ({
         id: p._id,
@@ -34,10 +40,10 @@ async function getProducts() {
         name: p.name,
         category: p.category,
         description: p.description,
-        image: p.image?.url || "",                   // Cloudinary URL or local /public path
+        image: formatUrl(p.image?.url) || "",       // Cloudinary URL or local /public path
         badge: p.badge || undefined,
         specs: Array.isArray(p.specs) ? p.specs : [],
-        pdf: p.pdf?.url || undefined,               // Cloudinary URL or local /public path
+        pdf: formatUrl(p.pdf?.url) || undefined,    // Cloudinary URL or local /public path
         featured: p.featured,
         price: p.price || 0,
       }));

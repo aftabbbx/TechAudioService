@@ -22,16 +22,22 @@ async function getCinemaProducts() {
 
     const data = await res.json();
     if (data.success && data.products?.length > 0) {
+      const formatUrl = (url) => {
+        if (!url) return undefined;
+        if (url.startsWith("/")) return `${apiUrl}${url}`;
+        return url;
+      };
+
       return data.products.map((p) => ({
         id: p._id,
         model: p.model || p.slug,
         name: p.name,
         category: p.category,
         description: p.description,
-        image: p.image?.url || "",
+        image: formatUrl(p.image?.url) || "",
         badge: p.badge || undefined,
         specs: Array.isArray(p.specs) ? p.specs : [],
-        pdf: p.pdf?.url || undefined,
+        pdf: formatUrl(p.pdf?.url) || undefined,
       }));
     }
   } catch (error) {
