@@ -12,6 +12,7 @@ const productRoutes = require("./routes/products");
 const adminProductRoutes = require("./routes/adminProducts");
 const publicCinemaRoutes = require("./routes/publicCinema");
 const adminCinemaRoutes = require("./routes/adminCinema");
+const downloadRoute = require("./routes/download");
 
 const app = express();
 
@@ -74,6 +75,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/admin/products", adminProductRoutes);
 app.use("/api/cinema", publicCinemaRoutes);
 app.use("/api/admin/cinema", adminCinemaRoutes);
+app.use("/api/download", downloadRoute);
 
 // Health check
 app.get("/api/health", (req, res) => {
