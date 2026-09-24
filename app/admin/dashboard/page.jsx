@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { Package, CheckCircle, XCircle, Star, TrendingUp, ArrowRight } from "lucide-react";
+import { adminFetch } from "@/components/admin/adminFetch";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
@@ -15,9 +16,7 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/admin/products?limit=5`, {
-          credentials: "include",
-        });
+        const res = await adminFetch(`${API_URL}/api/admin/products?limit=5`);
         const data = await res.json();
         if (data.success) {
           setStats(data.stats);

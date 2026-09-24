@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { X, Upload, Loader2, AlertCircle, Check, ImageIcon, FileText, Plus, Trash2 } from "lucide-react";
+import { adminFetch } from "./adminFetch";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
 
@@ -155,9 +156,8 @@ export function ProductFormModal({ product, onClose, onSuccess }) {
         ? `${API_URL}/api/admin/products/${product._id}`
         : `${API_URL}/api/admin/products`;
 
-      const res = await fetch(url, {
+      const res = await adminFetch(url, {
         method: isEdit ? "PUT" : "POST",
-        credentials: "include",
         body: formData,
       });
 

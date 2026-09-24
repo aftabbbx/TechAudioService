@@ -31,6 +31,7 @@ const sendTokenCookie = (admin, statusCode, res) => {
 
   res.status(statusCode).json({
     success: true,
+    token, // Return token for localStorage fallback
     admin: {
       id: admin._id,
       email: admin.email,

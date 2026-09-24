@@ -5,6 +5,7 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { CinemaFormModal } from "@/components/admin/CinemaFormModal";
 import { DeleteConfirmModal } from "@/components/admin/DeleteConfirmModal";
 import { Toast } from "@/components/admin/Toast";
+import { adminFetch } from "@/components/admin/adminFetch";
 import {
   Plus,
   Search,
@@ -57,9 +58,7 @@ export default function AdminCinemaPage() {
         ...(category !== "All" && { category }),
         ...(statusFilter !== "All" && { status: statusFilter }),
       });
-      const res = await fetch(`${API_URL}/api/admin/cinema?${params}`, {
-        credentials: "include",
-      });
+      const res = await adminFetch(`${API_URL}/api/admin/cinema?${params}`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);
       setProducts(data.products);
@@ -92,9 +91,8 @@ export default function AdminCinemaPage() {
     if (!deleteProduct) return;
     setDeleting(true);
     try {
-      const res = await fetch(`${API_URL}/api/admin/cinema/${deleteProduct._id}`, {
+      const res = await adminFetch(`${API_URL}/api/admin/cinema/${deleteProduct._id}`, {
         method: "DELETE",
-        credentials: "include",
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message);

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { adminFetch } from "./adminFetch";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -15,9 +16,7 @@ export function AdminAuthProvider({ children }) {
   // Check session on mount
   const checkAuth = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/auth/me`, {
-        credentials: "include", // Send HttpOnly cookie
-      });
+      const res = await adminFetch(`${API_URL}/api/auth/me`);
       if (res.ok) {
         const data = await res.json();
         setAdmin(data.admin);
@@ -44,15 +43,18 @@ export function AdminAuthProvider({ children }) {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "Login failed");
+    if (data.token) {
+      localStorage.setItem("adminToken", data.token);
+    }
     setAdmin(data.admin);
     return data;
   };
 
   const logout = async () => {
-    await fetch(`${API_URL}/api/auth/logout`, {
+    await adminFetch(`${API_URL}/api/auth/logout`, {
       method: "POST",
-      credentials: "include",
     });
+    localStorage.removeItem("adminToken");
     setAdmin(null);
     router.push("/admin/login");
   };
