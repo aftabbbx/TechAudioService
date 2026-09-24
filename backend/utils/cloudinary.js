@@ -40,7 +40,8 @@ const uploadPdfToCloudinary = (buffer, publicId = null) => {
   return new Promise((resolve, reject) => {
     const options = {
       folder: "products/pdfs",
-      resource_type: "auto",
+      resource_type: "raw",
+      format: "pdf",
     };
     if (publicId) {
       options.public_id = publicId;
