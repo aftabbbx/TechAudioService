@@ -40,16 +40,26 @@ export function CinemaGrid({ products, categories }) {
                     <Badge text={product.badge} variant="accent" />
                   </div>
                 )}
-                <div className="w-full h-full flex items-center justify-center p-6">
-                  <div className="text-center" style={{ color: "var(--text-muted)" }}>
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
-                      <rect x="4" y="2" width="16" height="20" rx="2" />
-                      <circle cx="12" cy="14" r="4" />
-                      <line x1="12" y1="6" x2="12.01" y2="6" />
-                    </svg>
-                    <span className="text-xs font-medium opacity-30">{product.model}</span>
+                {product.image ? (
+                  <div className="w-full h-full relative">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
                   </div>
-                </div>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center p-6">
+                    <div className="text-center" style={{ color: "var(--text-muted)" }}>
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-2 opacity-30">
+                        <rect x="4" y="2" width="16" height="20" rx="2" />
+                        <circle cx="12" cy="14" r="4" />
+                        <line x1="12" y1="6" x2="12.01" y2="6" />
+                      </svg>
+                      <span className="text-xs font-medium opacity-30">{product.model}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Content */}

@@ -1,7 +1,11 @@
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { AutoRefresh } from "@/components/ui/AutoRefresh";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { products as staticProducts, productCategories } from "@/data/products";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata = {
   title: "AudioTechServices | Professional Audio Products",
@@ -17,7 +21,6 @@ async function getProducts() {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
     const res = await fetch(`${apiUrl}/api/products`, {
-      next: { revalidate: 60 }, // ISR — revalidate every 60 seconds
       cache: "no-store",
     });
     if (!res.ok) throw new Error("API unavailable");
@@ -50,6 +53,7 @@ export default async function ProductsPage() {
 
   return (
     <>
+      <AutoRefresh interval={3000} />
       <section className="section-padding pb-0" style={{ backgroundColor: "var(--background)" }}>
         <div className="container-custom">
           <Breadcrumb items={[{ label: "Products" }]} />

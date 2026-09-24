@@ -116,11 +116,11 @@ export function PageLoader() {
       {/* Logo */}
       <div ref={logoRef} className="loader-logo relative z-10 flex flex-col items-center gap-3">
         <img
-          src="/uploads/home/ATS logo.svg"
+          src="/uploads/home/18DEC2F1-9764-45F9-96CA-B6276015A6BB_Original.PNG"
           alt="AudioTechServices"
-          width={180}
-          height={46}
-          style={{ objectFit: "contain", filter: "brightness(0) invert(1)" }}
+          width={280}
+          height={100}
+          style={{ objectFit: "contain", maxWidth: "280px", maxHeight: "120px" }}
         />
         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px" }}>
           <div className="tech-dot" style={{ animationDelay: "0s" }} />
@@ -151,7 +151,7 @@ export function PageLoader() {
           bottom: "2.5rem",
           left: "50%",
           transform: "translateX(-50%)",
-          color: "rgba(255,255,255,0.18)",
+          color: "rgba(0,0,0,0.3)",
           fontSize: "0.6rem",
           letterSpacing: "0.25em",
           textTransform: "uppercase",

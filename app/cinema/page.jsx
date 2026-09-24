@@ -1,7 +1,11 @@
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
+import { AutoRefresh } from "@/components/ui/AutoRefresh";
 import { CinemaGrid } from "@/components/cinema/CinemaGrid";
 import { cinemaProducts as staticCinemaProducts, cinemaCategories } from "@/data/cinemaProducts";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata = {
   title: "AudioTechServices | Digital Cinema Audio Solutions",
@@ -12,7 +16,6 @@ async function getCinemaProducts() {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
     const res = await fetch(`${apiUrl}/api/cinema`, {
-      next: { revalidate: 60 },
       cache: "no-store",
     });
     if (!res.ok) throw new Error("API unavailable");
@@ -42,6 +45,7 @@ export default async function CinemaPage() {
 
   return (
     <>
+      <AutoRefresh interval={3000} />
       <section className="section-padding pb-0" style={{ backgroundColor: "var(--background)" }}>
         <div className="container-custom">
           <Breadcrumb items={[{ label: "Cinema" }]} />

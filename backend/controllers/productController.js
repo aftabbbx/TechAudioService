@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Product = require("../models/Product");
-const { uploadImageSafe, deleteFromCloudinary } = require("../utils/cloudinary");
+const { uploadImageSafe, deleteFromCloudinary, uploadPdfToCloudinary } = require("../utils/cloudinary");
 const slugify = require("slugify");
 
 // Helper to save PDF locally
@@ -145,8 +145,9 @@ const createProduct = async (req, res) => {
 
     let pdf = { url: "", publicId: "" };
     if (req.files?.pdf?.[0]) {
-      const pdfUrl = savePdfLocally(req.files.pdf[0].buffer, req.files.pdf[0].originalname);
-      pdf = { url: pdfUrl, publicId: "" };
+      const pdfFile = req.files.pdf[0];
+      const result = await uploadPdfToCloudinary(pdfFile.buffer);
+      pdf = { url: result.url, publicId: result.publicId };
     }
 
     let parsedSpecs = [];
@@ -221,10 +222,11 @@ const updateProduct = async (req, res) => {
       if (product.pdf?.url && product.pdf.url.startsWith('/uploads/pdfs/')) {
         deleteLocalPdf(product.pdf.url);
       } else if (product.pdf?.publicId) {
-        await deleteFromCloudinary(product.pdf.publicId);
+        await deleteFromCloudinary(product.pdf.publicId, "raw");
       }
-      const pdfUrl = savePdfLocally(req.files.pdf[0].buffer, req.files.pdf[0].originalname);
-      pdf = { url: pdfUrl, publicId: "" };
+      const pdfFile = req.files.pdf[0];
+      const result = await uploadPdfToCloudinary(pdfFile.buffer);
+      pdf = { url: result.url, publicId: result.publicId };
     }
 
     let parsedSpecs = product.specs;
@@ -278,7 +280,7 @@ const deleteProduct = async (req, res) => {
     if (product.pdf?.url && product.pdf.url.startsWith('/uploads/pdfs/')) {
       deleteLocalPdf(product.pdf.url);
     } else if (product.pdf?.publicId) {
-      await deleteFromCloudinary(product.pdf.publicId);
+      await deleteFromCloudinary(product.pdf.publicId, "raw");
     }
 
     await Product.findByIdAndDelete(req.params.id);

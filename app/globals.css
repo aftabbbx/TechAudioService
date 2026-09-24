@@ -274,7 +274,7 @@ body.modal-open { overflow: hidden; }
   position: fixed;
   inset: 0;
   z-index: 100000;
-  background-color: var(--primary-deeper);
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,7 +295,7 @@ body.modal-open { overflow: hidden; }
   transform: translateX(-50%);
   height: 1px;
   width: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), var(--accent), rgba(255,255,255,0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), var(--accent), rgba(0,0,0,0.1), transparent);
   will-change: width;
 }
 
@@ -306,7 +306,7 @@ body.modal-open { overflow: hidden; }
   transform: translateX(-50%);
   width: 160px;
   height: 1px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.1);
   border-radius: 1px;
   overflow: hidden;
 }

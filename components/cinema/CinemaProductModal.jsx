@@ -58,15 +58,23 @@ export function CinemaProductModal({ product, onClose }) {
 
         <div className="grid md:grid-cols-2">
           {/* Image */}
-          <div className="flex items-center justify-center p-10 md:p-14 min-h-[280px]" style={{ backgroundColor: "var(--surface-alt)" }}>
-            <div className="text-center" style={{ color: "var(--text-muted)" }}>
-              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-3 opacity-30">
-                <rect x="4" y="2" width="16" height="20" rx="2" />
-                <circle cx="12" cy="14" r="4" />
-                <line x1="12" y1="6" x2="12.01" y2="6" />
-              </svg>
-              <p className="text-sm font-medium opacity-40">{product.model}</p>
-            </div>
+          <div className="flex items-center justify-center min-h-[280px] relative overflow-hidden" style={{ backgroundColor: "var(--surface-alt)" }}>
+            {product.image ? (
+              <img 
+                src={product.image} 
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="text-center p-10 md:p-14" style={{ color: "var(--text-muted)" }}>
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-3 opacity-30">
+                  <rect x="4" y="2" width="16" height="20" rx="2" />
+                  <circle cx="12" cy="14" r="4" />
+                  <line x1="12" y1="6" x2="12.01" y2="6" />
+                </svg>
+                <p className="text-sm font-medium opacity-40">{product.model}</p>
+              </div>
+            )}
           </div>
 
           {/* Details */}
@@ -113,6 +121,7 @@ export function CinemaProductModal({ product, onClose }) {
                   href={product.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
+                  download
                   className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg border transition-all hover:bg-[var(--surface-alt)]"
                   style={{ borderColor: "var(--border)", color: "var(--text)" }}
                 >
