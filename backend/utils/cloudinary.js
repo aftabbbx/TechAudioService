@@ -40,8 +40,7 @@ const uploadPdfToCloudinary = (buffer, publicId = null) => {
   return new Promise((resolve, reject) => {
     const options = {
       folder: "products/pdfs",
-      resource_type: "raw",
-      format: "pdf",
+      resource_type: "auto",
     };
     if (publicId) {
       options.public_id = publicId;
@@ -89,6 +88,38 @@ const uploadImageSafe = async (buffer, originalName = "product.jpg", publicId = 
 };
 
 /**
+ * Save PDF locally to /public/uploads/pdfs/ as fallback.
+ * Returns { url, publicId: "" }
+ */
+const savePdfLocally = (buffer, originalName = "datasheet.pdf") => {
+  const uploadsDir = path.join(__dirname, "../../public/uploads/pdfs");
+  if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+  const filename = `${Date.now()}-${slugify(path.basename(originalName, ".pdf"), { lower: true, strict: true })}.pdf`;
+  const filePath = path.join(uploadsDir, filename);
+  fs.writeFileSync(filePath, buffer);
+  // Prepend the Render URL so Vercel can access it (assuming deployed on Render)
+  const baseUrl = process.env.RENDER_EXTERNAL_URL || process.env.API_URL || "https://techaudioservice.onrender.com";
+  return { url: `${baseUrl}/uploads/pdfs/${filename}`, publicId: "" };
+};
+
+/**
+ * Upload PDF — tries Cloudinary first, falls back to local storage on 403/401/400.
+ */
+const uploadPdfSafe = async (buffer, originalName = "datasheet.pdf", publicId = null) => {
+  try {
+    return await uploadPdfToCloudinary(buffer, publicId);
+  } catch (err) {
+    if (err.http_code === 403 || err.http_code === 401 || err.http_code === 400) {
+      console.warn(`⚠️  Cloudinary PDF upload blocked (${err.http_code}) — saving PDF locally instead.`);
+      return savePdfLocally(buffer, originalName);
+    }
+    throw err;
+  }
+};
+
+/**
  * Delete any asset from Cloudinary by publicId.
  * Only calls Cloudinary if publicId is a real Cloudinary path (not empty/"").
  */
@@ -109,6 +140,8 @@ module.exports = {
   uploadToCloudinary,
   uploadPdfToCloudinary,
   uploadImageSafe,
+  uploadPdfSafe,
   saveImageLocally,
+  savePdfLocally,
   deleteFromCloudinary,
 };

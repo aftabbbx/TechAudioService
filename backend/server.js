@@ -62,6 +62,10 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
+// Serve static fallback files (e.g. PDFs that failed to upload to Cloudinary)
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
+
 // ─────────────────────────────────────────────
 //  API Routes
 // ─────────────────────────────────────────────

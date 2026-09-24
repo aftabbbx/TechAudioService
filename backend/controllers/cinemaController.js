@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Cinema = require("../models/Cinema");
-const { uploadImageSafe, deleteFromCloudinary, uploadPdfToCloudinary } = require("../utils/cloudinary");
+const { uploadImageSafe, deleteFromCloudinary, uploadPdfSafe } = require("../utils/cloudinary");
 const slugify = require("slugify");
 
 const savePdfLocally = (buffer, originalName) => {
@@ -120,7 +120,7 @@ const createCinemaProduct = async (req, res) => {
     let pdf = { url: "", publicId: "" };
     if (req.files?.pdf?.[0]) {
       const pdfFile = req.files.pdf[0];
-      const result = await uploadPdfToCloudinary(pdfFile.buffer);
+      const result = await uploadPdfSafe(pdfFile.buffer, pdfFile.originalname);
       pdf = { url: result.url, publicId: result.publicId };
     }
 
@@ -180,13 +180,13 @@ const updateCinemaProduct = async (req, res) => {
 
     let pdf = product.pdf;
     if (req.files?.pdf?.[0]) {
-      if (product.pdf?.url && product.pdf.url.startsWith('/uploads/pdfs/')) {
+      if (product.pdf?.url && product.pdf.url.includes('/uploads/pdfs/')) {
         deleteLocalPdf(product.pdf.url);
       } else if (product.pdf?.publicId) {
         await deleteFromCloudinary(product.pdf.publicId, "raw");
       }
       const pdfFile = req.files.pdf[0];
-      const result = await uploadPdfToCloudinary(pdfFile.buffer);
+      const result = await uploadPdfSafe(pdfFile.buffer, pdfFile.originalname);
       pdf = { url: result.url, publicId: result.publicId };
     }
 
@@ -233,7 +233,7 @@ const deleteCinemaProduct = async (req, res) => {
       await deleteFromCloudinary(product.image.publicId);
     }
     
-    if (product.pdf?.url && product.pdf.url.startsWith('/uploads/pdfs/')) {
+    if (product.pdf?.url && product.pdf.url.includes('/uploads/pdfs/')) {
       deleteLocalPdf(product.pdf.url);
     } else if (product.pdf?.publicId) {
       await deleteFromCloudinary(product.pdf.publicId, "raw");

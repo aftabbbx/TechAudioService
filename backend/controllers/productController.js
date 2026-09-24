@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Product = require("../models/Product");
-const { uploadImageSafe, deleteFromCloudinary, uploadPdfToCloudinary } = require("../utils/cloudinary");
+const { uploadImageSafe, deleteFromCloudinary, uploadPdfSafe } = require("../utils/cloudinary");
 const slugify = require("slugify");
 
 // Helper to save PDF locally
@@ -18,7 +18,7 @@ const savePdfLocally = (buffer, originalName) => {
 
 // Helper to delete local PDF
 const deleteLocalPdf = (pdfUrl) => {
-  if (!pdfUrl || !pdfUrl.startsWith('/uploads/pdfs/')) return;
+  if (!pdfUrl || !pdfUrl.includes('/uploads/pdfs/')) return;
   try {
     const filename = pdfUrl.split('/').pop();
     const filePath = path.join(__dirname, "../../public/uploads/pdfs", filename);
@@ -146,7 +146,7 @@ const createProduct = async (req, res) => {
     let pdf = { url: "", publicId: "" };
     if (req.files?.pdf?.[0]) {
       const pdfFile = req.files.pdf[0];
-      const result = await uploadPdfToCloudinary(pdfFile.buffer);
+      const result = await uploadPdfSafe(pdfFile.buffer, pdfFile.originalname);
       pdf = { url: result.url, publicId: result.publicId };
     }
 
@@ -219,13 +219,13 @@ const updateProduct = async (req, res) => {
 
     let pdf = product.pdf;
     if (req.files?.pdf?.[0]) {
-      if (product.pdf?.url && product.pdf.url.startsWith('/uploads/pdfs/')) {
+      if (product.pdf?.url && product.pdf.url.includes('/uploads/pdfs/')) {
         deleteLocalPdf(product.pdf.url);
       } else if (product.pdf?.publicId) {
         await deleteFromCloudinary(product.pdf.publicId, "raw");
       }
       const pdfFile = req.files.pdf[0];
-      const result = await uploadPdfToCloudinary(pdfFile.buffer);
+      const result = await uploadPdfSafe(pdfFile.buffer, pdfFile.originalname);
       pdf = { url: result.url, publicId: result.publicId };
     }
 
@@ -277,7 +277,7 @@ const deleteProduct = async (req, res) => {
       await deleteFromCloudinary(product.image.publicId);
     }
     
-    if (product.pdf?.url && product.pdf.url.startsWith('/uploads/pdfs/')) {
+    if (product.pdf?.url && product.pdf.url.includes('/uploads/pdfs/')) {
       deleteLocalPdf(product.pdf.url);
     } else if (product.pdf?.publicId) {
       await deleteFromCloudinary(product.pdf.publicId, "raw");
