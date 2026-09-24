@@ -1,0 +1,64 @@
+import { Manrope, Space_Grotesk } from "next/font/google";
+import "./globals.css";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { BackToTop } from "@/components/ui/BackToTop";
+import { CustomCursor } from "@/components/ui/CustomCursor";
+import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { PageLoader } from "@/components/ui/PageLoader";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+export const metadata = {
+  title: "AudioTechServices | Professional Audio Engineering & System Integration",
+  description:
+    "Professional audio engineering, amplifiers, DSP processing, cinema sound systems, speaker systems, installation and maintenance.",
+  metadataBase: new URL("https://audiotechservices.com"),
+  openGraph: {
+    title: "AudioTechServices | Professional Audio Engineering & System Integration",
+    description:
+      "Professional audio engineering, amplifiers, DSP processing, cinema sound systems, speaker systems, installation and maintenance.",
+    url: "https://audiotechservices.com",
+    siteName: "AudioTechServices",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AudioTechServices | Professional Audio Engineering",
+    description:
+      "Professional audio engineering, amplifiers, DSP processing, cinema sound systems.",
+  },
+  robots: { index: true, follow: true },
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" className={`${manrope.variable} ${spaceGrotesk.variable}`}>
+      <body className="min-h-screen flex flex-col">
+        <PageLoader />
+        <SmoothScroll>
+          <CustomCursor />
+          <ScrollProgress />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <BackToTop />
+        </SmoothScroll>
+      </body>
+    </html>
+  );
+}
