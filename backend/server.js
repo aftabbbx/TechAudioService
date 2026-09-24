@@ -15,6 +15,9 @@ const adminCinemaRoutes = require("./routes/adminCinema");
 
 const app = express();
 
+// Trust proxy is required when hosting on Render/Vercel to get real IP for rate limiting
+app.set("trust proxy", 1);
+
 // ─────────────────────────────────────────────
 //  Connect to MongoDB
 // ─────────────────────────────────────────────
@@ -41,8 +44,8 @@ app.use(
 
 // Global API rate limiter — 200 req per 15 min per IP
 const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 200,
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5000, // Increased heavily because AutoRefresh pings every 3 seconds
   standardHeaders: true,
   legacyHeaders: false,
   message: {
