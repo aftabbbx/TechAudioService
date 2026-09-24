@@ -23,7 +23,7 @@ const sendTokenCookie = (admin, statusCode, res) => {
   const cookieOptions = {
     httpOnly: true,             // Not accessible via JS — XSS protection
     secure: process.env.NODE_ENV === "production", // HTTPS only in prod
-    sameSite: "strict",         // CSRF protection
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", // Cross-domain support in prod
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
 

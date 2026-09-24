@@ -51,7 +51,7 @@ const logout = (req, res) => {
   res.cookie("adminToken", "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     expires: new Date(0),
   });
 
