@@ -43,7 +43,7 @@ export function Footer() {
                 <img
                   src="/logo.png"
                   alt="AudioTechServices Logo"
-                  className="w-auto object-contain bg-white/10 p-1.5 rounded"
+                  className="w-auto object-contain"
                   style={{ maxHeight: "45px" }}
                 />
               </Link>

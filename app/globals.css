@@ -123,6 +123,11 @@ body {
   line-height: 1.65;
   font-weight: 400;
   letter-spacing: -0.01em;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 /* Custom cursor — hide default on desktop */

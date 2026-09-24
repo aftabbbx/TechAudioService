@@ -146,7 +146,7 @@ export function Hero() {
     <section
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ backgroundColor: "var(--background)", minHeight: "calc(100vh - 104px)" }}
+      style={{ backgroundColor: "var(--background)" }}
     >
       {/* Subtle grid */}
       <div className="absolute inset-0 bg-grid-subtle opacity-30 pointer-events-none" />
@@ -178,7 +178,7 @@ export function Hero() {
       />
 
       <div className="container-custom relative">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center py-16 lg:py-24 min-h-[calc(100vh-104px)]">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center py-12 lg:py-16">
 
           {/* ─── Left Content ─── */}
           <div ref={contentRef}>
@@ -313,7 +313,7 @@ export function Hero() {
                   <img
                     src="/logo.png"
                     alt="ATS"
-                    className="bg-white/10 p-3 rounded-lg"
+                    className=""
                     style={{
                       maxWidth: "200px",
                       height: "auto",

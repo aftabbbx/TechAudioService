@@ -118,9 +118,7 @@ export function PageLoader() {
         <img
           src="/logo.png"
           alt="AudioTechServices"
-          width={280}
-          height={100}
-          style={{ objectFit: "contain", maxWidth: "280px", maxHeight: "120px" }}
+          style={{ objectFit: "contain", maxWidth: "200px", maxHeight: "60px", width: "auto", height: "auto" }}
         />
         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px" }}>
           <div className="tech-dot" style={{ animationDelay: "0s" }} />
