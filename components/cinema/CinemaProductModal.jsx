@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { X, MessageSquare, Download } from "lucide-react";
+import { X, MessageSquare, Download, AlertCircle } from "lucide-react";
+import { forceDownload } from "@/lib/download";
 
 export function CinemaProductModal({ product, onClose }) {
   const modalRef = useRef(null);
@@ -116,18 +117,28 @@ export function CinemaProductModal({ product, onClose }) {
                 <MessageSquare size={16} />
                 Request Quote
               </a>
-              {product.pdf && (
-                <a
-                  href={product.pdf}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg border transition-all hover:bg-[var(--surface-alt)]"
+              {product.pdf ? (
+                <button
+                  onClick={() => forceDownload(product.pdf, `${product.model || 'cinema-product'}-datasheet.pdf`)}
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg border transition-all hover:bg-[var(--surface-alt)] cursor-pointer"
                   style={{ borderColor: "var(--border)", color: "var(--text)" }}
                 >
                   <Download size={16} />
                   Download Datasheet
-                </a>
+                </button>
+              ) : (
+                <button
+                  disabled
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg border opacity-60 cursor-not-allowed"
+                  style={{
+                    borderColor: "var(--border)",
+                    color: "var(--text-muted)",
+                    backgroundColor: "var(--surface-alt)"
+                  }}
+                >
+                  <AlertCircle size={16} />
+                  PDF Not Available
+                </button>
               )}
             </div>
           </div>

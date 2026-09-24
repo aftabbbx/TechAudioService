@@ -1,7 +1,8 @@
 "use client";
 
-import { Eye, Download } from "lucide-react";
+import { Eye, Download, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { forceDownload } from "@/lib/download";
 
 export function ProductCard({ product, onViewDetails }) {
   return (
@@ -92,19 +93,26 @@ export function ProductCard({ product, onViewDetails }) {
             <Eye size={16} />
             View Details
           </button>
-          {product.pdf && (
-            <a
-              href={product.pdf}
-              target="_blank"
-              rel="noopener noreferrer"
-              download
-              className="inline-flex items-center justify-center w-10 h-10 rounded-lg border transition-colors hover:bg-[var(--surface-alt)]"
+          {product.pdf ? (
+            <button
+              onClick={() => forceDownload(product.pdf, `${product.model || 'product'}-datasheet.pdf`)}
+              className="inline-flex items-center justify-center w-10 h-10 rounded-lg border transition-colors hover:bg-[var(--surface-alt)] cursor-pointer"
               style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
               aria-label={`Download ${product.model} datasheet`}
               title="Download Datasheet"
             >
               <Download size={16} />
-            </a>
+            </button>
+          ) : (
+            <button
+              disabled
+              className="inline-flex items-center justify-center w-10 h-10 rounded-lg border opacity-60 cursor-not-allowed"
+              style={{ borderColor: "var(--border)", color: "var(--text-muted)", backgroundColor: "var(--surface-alt)" }}
+              aria-label="PDF Not Available"
+              title="PDF Not Available"
+            >
+              <AlertCircle size={16} />
+            </button>
           )}
         </div>
       </div>
