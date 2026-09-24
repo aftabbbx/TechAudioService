@@ -1,14 +1,45 @@
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { CinemaGrid } from "@/components/cinema/CinemaGrid";
-import { cinemaProducts, cinemaCategories } from "@/data/cinemaProducts";
+import { cinemaProducts as staticCinemaProducts, cinemaCategories } from "@/data/cinemaProducts";
 
 export const metadata = {
   title: "AudioTechServices | Digital Cinema Audio Solutions",
   description: "Complete cinema audio catalog — amplifiers, screen speakers, subwoofers, surrounds and DSP management for professional cinema environments.",
 };
 
-export default function CinemaPage() {
+async function getCinemaProducts() {
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+    const res = await fetch(`${apiUrl}/api/cinema`, {
+      next: { revalidate: 60 },
+      cache: "no-store",
+    });
+    if (!res.ok) throw new Error("API unavailable");
+
+    const data = await res.json();
+    if (data.success && data.products?.length > 0) {
+      return data.products.map((p) => ({
+        id: p._id,
+        model: p.model || p.slug,
+        name: p.name,
+        category: p.category,
+        description: p.description,
+        image: p.image?.url || "",
+        badge: p.badge || undefined,
+        specs: Array.isArray(p.specs) ? p.specs : [],
+        pdf: p.pdf?.url || undefined,
+      }));
+    }
+  } catch (error) {
+    // Fallback
+  }
+  return staticCinemaProducts;
+}
+
+export default async function CinemaPage() {
+  const products = await getCinemaProducts();
+
   return (
     <>
       <section className="section-padding pb-0" style={{ backgroundColor: "var(--background)" }}>
@@ -27,7 +58,7 @@ export default function CinemaPage() {
 
       <section className="section-padding" style={{ backgroundColor: "var(--background)" }}>
         <div className="container-custom">
-          <CinemaGrid products={cinemaProducts} categories={cinemaCategories} />
+          <CinemaGrid products={products} categories={cinemaCategories} />
         </div>
       </section>
     </>

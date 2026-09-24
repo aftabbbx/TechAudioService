@@ -7,6 +7,7 @@ import { BackToTop } from "@/components/ui/BackToTop";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { PageLoader } from "@/components/ui/PageLoader";
+import { headers } from "next/headers";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -45,19 +46,32 @@ export const metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  // Check if current path is under /admin — if yes, skip site chrome
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "";
+  const isAdmin = pathname.startsWith("/admin");
+
   return (
     <html lang="en" className={`${manrope.variable} ${spaceGrotesk.variable}`}>
-      <body className="min-h-screen flex flex-col">
-        <PageLoader />
-        <SmoothScroll>
-          <CustomCursor />
-          <ScrollProgress />
-          <Header />
+      <body className="min-h-screen flex flex-col" suppressHydrationWarning>
+        {isAdmin ? (
+          // Admin: NO header, footer, cursor, scroll effects
           <main className="flex-1">{children}</main>
-          <Footer />
-          <BackToTop />
-        </SmoothScroll>
+        ) : (
+          // Main site: full chrome
+          <>
+            <PageLoader />
+            <SmoothScroll>
+              <CustomCursor />
+              <ScrollProgress />
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <BackToTop />
+            </SmoothScroll>
+          </>
+        )}
       </body>
     </html>
   );
