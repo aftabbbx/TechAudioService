@@ -13,6 +13,8 @@ const adminProductRoutes = require("./routes/adminProducts");
 const publicCinemaRoutes = require("./routes/publicCinema");
 const adminCinemaRoutes = require("./routes/adminCinema");
 const downloadRoute = require("./routes/download");
+const categoryRoutes = require("./routes/categories");
+const adminCategoryRoutes = require("./routes/adminCategories");
 
 const app = express();
 
@@ -86,6 +88,8 @@ app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/admin/products", adminProductRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/admin/categories", adminCategoryRoutes);
 app.use("/api/cinema", publicCinemaRoutes);
 app.use("/api/admin/cinema", adminCinemaRoutes);
 app.use("/api/download", downloadRoute);

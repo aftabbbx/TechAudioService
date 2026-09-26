@@ -68,8 +68,8 @@ html.lenis, html.lenis body {
   /* Spacing */
   --container-max: 1280px;
   --container-padding: 1.5rem;
-  --section-gap: 7rem;
-  --section-gap-mobile: 4rem;
+  --section-gap: 4.5rem;
+  --section-gap-mobile: 2.75rem;
 
   /* Radius */
   --radius-sm: 6px;

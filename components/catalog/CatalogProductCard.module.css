@@ -1,0 +1,45 @@
+.card {
+  overflow: hidden;
+  border: 1px solid rgba(20, 39, 76, .09);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 6px 26px rgba(19, 42, 98, .045);
+  transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease, border-color .3s ease;
+}
+
+.card:hover { transform: translateY(-5px); border-color: rgba(27,58,138,.18); box-shadow: 0 18px 48px rgba(19,42,98,.12); }
+.imageLink { display: block; text-decoration: none; }
+.visual { position: relative; display: grid; aspect-ratio: 1.58; overflow: hidden; place-items: center; background: linear-gradient(145deg,#f6f8fc,#e9edf5); }
+.visualGlow { position: absolute; width: 65%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle,rgba(255,255,255,.97),rgba(211,222,243,.15) 68%,transparent 72%); }
+.image { position: relative; width: 100%; height: 100%; object-fit: contain; padding: 20px; mix-blend-mode: multiply; transition: transform .5s cubic-bezier(.16,1,.3,1); }
+.card:hover .image { transform: scale(1.045); }
+.badge { position: absolute; z-index: 2; top: 15px; left: 15px; padding: 6px 10px; border: 1px solid rgba(255,255,255,.75); border-radius: 999px; color: #fff; background: rgba(16,39,82,.88); font-size: .64rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; backdrop-filter: blur(8px); }
+.imageAction { position: absolute; right: 15px; bottom: 15px; display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; color: var(--primary); background: rgba(255,255,255,.88); transition: color .2s, background .2s, transform .2s; }
+.card:hover .imageAction { color: #fff; background: var(--accent); transform: rotate(45deg); }
+.placeholder { position: relative; display: flex; flex-direction: column; align-items: center; color: var(--primary); }
+.placeholder span { font-family: var(--font-display); font-size: clamp(1.6rem,4vw,3rem); font-weight: 700; letter-spacing: -.05em; }
+.placeholder small { margin-top: 2px; color: var(--text-muted); font-size: .56rem; font-weight: 700; letter-spacing: .2em; }
+.content { padding: 20px 21px 16px; }
+.meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--accent); font-size: .67rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.model { overflow: hidden; color: #969eae; font-family: var(--font-mono); font-size: .68rem; letter-spacing: 0; text-overflow: ellipsis; white-space: nowrap; }
+.titleLink { color: inherit; text-decoration: none; }
+.titleLink h2 { margin: 8px 0 7px; color: var(--text); font-family: var(--font-display); font-size: clamp(1.1rem,1.5vw,1.3rem); font-weight: 700; letter-spacing: -.035em; line-height: 1.25; }
+.titleLink:hover h2 { color: var(--primary); }
+.description { display: -webkit-box; min-height: 3.35em; margin: 0; overflow: hidden; color: var(--text-secondary); font-size: .82rem; line-height: 1.65; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.highlights { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.highlights span { max-width: 100%; overflow: hidden; padding: 5px 8px; border: 1px solid #e8ebf1; border-radius: 6px; color: #647087; background: #f8f9fb; font-size: .62rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 13px; border-top: 1px solid #edf0f4; }
+.detailsLink { display: inline-flex; align-items: center; gap: 7px; color: var(--primary); font-size: .78rem; font-weight: 700; text-decoration: none; }
+.detailsLink svg { transition: transform .2s ease; }
+.detailsLink:hover svg { transform: translate(3px,-3px); }
+.download { display: grid; width: 34px; height: 34px; flex: 0 0 34px; padding: 0; place-items: center; border: 1px solid #e6eaf0; border-radius: 9px; color: #63708a; background: transparent; cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
+.download:hover { border-color: var(--primary); color: var(--primary); background: #f6f8fc; }
+
+@media (max-width: 600px) {
+  .card { border-radius: 15px; }
+  .visual { aspect-ratio: 1.48; }
+  .image { padding: 16px; }
+  .content { padding: 16px 16px 13px; }
+  .titleLink h2 { font-size: 1.12rem; }
+  .description { font-size: .79rem; }
+}

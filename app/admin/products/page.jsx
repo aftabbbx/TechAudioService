@@ -5,6 +5,7 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { ProductFormModal } from "@/components/admin/ProductFormModal";
 import { DeleteConfirmModal } from "@/components/admin/DeleteConfirmModal";
 import { Toast } from "@/components/admin/Toast";
+import { CategoryManagerModal } from "@/components/admin/CategoryManagerModal";
 import { adminFetch } from "@/components/admin/adminFetch";
 import {
   Plus,
@@ -17,10 +18,36 @@ import {
   ChevronRight,
   Filter,
   ImageIcon,
+  Tags,
 } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
-const CATEGORIES = ["All", "Amplifiers", "DSP / Processing", "Digital Speakers", "Subwoofers", "Speaker Management", "Cinema Audio"];
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+function ProductThumbnail({ product }) {
+  const [imageFailed, setImageFailed] = useState(false);
+
+  if (product.image?.url && !imageFailed) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={product.image.url}
+        alt={product.name}
+        className="admin-table-thumb"
+        onError={() => setImageFailed(true)}
+      />
+    );
+  }
+
+  return (
+    <div
+      className="admin-table-thumb admin-table-thumb--placeholder"
+      title={`${product.name} image unavailable`}
+      aria-label={`${product.name} image unavailable`}
+    >
+      <ImageIcon size={16} style={{ color: "var(--text-muted)" }} />
+    </div>
+  );
+}
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState([]);
@@ -34,9 +61,11 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [categories, setCategories] = useState([]);
 
   // Modals
   const [showForm, setShowForm] = useState(false);
+  const [showCategories, setShowCategories] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
   const [deleteProduct, setDeleteProduct] = useState(null);
   const [deleting, setDeleting] = useState(false);
@@ -44,9 +73,21 @@ export default function AdminProductsPage() {
   // Toast
   const [toast, setToast] = useState(null);
 
-  const showToast = (message, type = "success") => {
+  const showToast = useCallback((message, type = "success") => {
     setToast({ message, type });
-  };
+  }, []);
+
+  const fetchCategories = useCallback(async () => {
+    try {
+      const res = await adminFetch(`${API_URL}/api/admin/categories`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to load categories.");
+      setCategories(data.categories || []);
+    } catch (err) {
+      console.error("Category fetch error:", err);
+      showToast(err.message || "Failed to load categories.", "error");
+    }
+  }, [showToast]);
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -76,6 +117,10 @@ export default function AdminProductsPage() {
     fetchProducts();
   }, [fetchProducts]);
 
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
+
   // Debounce search
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -87,6 +132,16 @@ export default function AdminProductsPage() {
   const handleSuccess = (product, action) => {
     fetchProducts();
     showToast(`Product "${product.name}" ${action} successfully.`);
+  };
+
+  const handleCategoriesChanged = async (removedCategory) => {
+    await fetchCategories();
+    if (removedCategory && category === removedCategory) {
+      setCategory("All");
+      setPage(1);
+      return;
+    }
+    if (removedCategory) fetchProducts();
   };
 
   const handleDeleteConfirm = async () => {
@@ -129,14 +184,23 @@ export default function AdminProductsPage() {
               {total} product{total !== 1 ? "s" : ""} total
             </p>
           </div>
-          <button
-            id="add-product-btn"
-            className="admin-btn admin-btn--primary"
-            onClick={() => { setEditProduct(null); setShowForm(true); }}
-          >
-            <Plus size={18} />
-            Add Product
-          </button>
+          <div className="admin-header-actions">
+            <button
+              className="admin-btn admin-btn--ghost"
+              onClick={() => setShowCategories(true)}
+            >
+              <Tags size={17} />
+              Manage Categories
+            </button>
+            <button
+              id="add-product-btn"
+              className="admin-btn admin-btn--primary"
+              onClick={() => { setEditProduct(null); setShowForm(true); }}
+            >
+              <Plus size={18} />
+              Add Product
+            </button>
+          </div>
         </div>
 
         {/* Filters */}
@@ -161,7 +225,7 @@ export default function AdminProductsPage() {
                 value={category}
                 onChange={(e) => { setCategory(e.target.value); setPage(1); }}
               >
-                {CATEGORIES.map((c) => (
+                {["All", ...categories.map((item) => item.name)].map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
               </select>
@@ -233,14 +297,7 @@ export default function AdminProductsPage() {
                   {products.map((p) => (
                     <tr key={p._id}>
                       <td>
-                        {p.image?.url ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={p.image.url} alt={p.name} className="admin-table-thumb" />
-                        ) : (
-                          <div className="admin-table-thumb admin-table-thumb--placeholder">
-                            <ImageIcon size={16} style={{ color: "var(--text-muted)" }} />
-                          </div>
-                        )}
+                        <ProductThumbnail product={p} />
                       </td>
                       <td>
                         <span className="admin-table-product-name">{p.name}</span>
@@ -328,8 +385,17 @@ export default function AdminProductsPage() {
       {showForm && (
         <ProductFormModal
           product={editProduct}
+          categories={categories}
           onClose={() => { setShowForm(false); setEditProduct(null); }}
           onSuccess={handleSuccess}
+        />
+      )}
+
+      {showCategories && (
+        <CategoryManagerModal
+          categories={categories}
+          onClose={() => setShowCategories(false)}
+          onChanged={handleCategoriesChanged}
         />
       )}
 

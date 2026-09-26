@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" role="img">
+  <g fill="#050505">
+    <path d="M20 24h38c20 0 36 16 36 36S78 96 58 96H20V24Zm15 16v40h22c11 0 20-9 20-20s-9-20-20-20H35Z"/>
+    <path d="M120 24h38c20 0 36 16 36 36s-16 36-36 36h-38V24Zm15 16v40h22c11 0 20-9 20-20s-9-20-20-20h-22Z"/>
+    <text x="203" y="72" font-family="Arial, Helvetica, sans-serif" font-size="47" font-weight="400" letter-spacing="-2">Dolby</text>
+    <text x="120" y="115" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="500" letter-spacing="8">ATMOS</text>
+  </g>
+</svg>

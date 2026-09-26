@@ -1,0 +1,191 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(ellipse at 78% 42%, rgba(51, 89, 165, .3), transparent 35%),
+    linear-gradient(116deg, #0b1835 0%, #102754 58%, #132d60 100%);
+}
+
+.cinema {
+  background:
+    radial-gradient(ellipse at 78% 42%, rgba(199, 55, 61, .2), transparent 35%),
+    linear-gradient(116deg, #0b1835 0%, #102754 58%, #132d60 100%);
+}
+
+.glow {
+  position: absolute;
+  z-index: -1;
+  width: 760px;
+  height: 760px;
+  right: -260px;
+  top: -280px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 50%;
+  box-shadow: 0 0 0 70px rgba(255,255,255,.018), 0 0 0 145px rgba(255,255,255,.014);
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .75fr);
+  align-items: center;
+  gap: 28px 40px;
+  min-height: 440px;
+  padding-top: 70px;
+  padding-bottom: 28px;
+}
+
+.copy { max-width: 680px; }
+
+.breadcrumb :global(nav) { margin-bottom: 22px; }
+.breadcrumb :global(ol), .breadcrumb :global(li), .breadcrumb :global(nav span) { color: rgba(255,255,255,.62) !important; }
+.breadcrumb :global(nav a) { color: rgba(255,255,255,.72) !important; }
+.breadcrumb :global(nav li:last-child span) { color: rgba(255,255,255,.92) !important; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 19px;
+  color: rgba(255,255,255,.7);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.eyebrow > span {
+  width: 24px;
+  height: 2px;
+  background: #e24747;
+}
+
+.copy h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5.1vw, 4.6rem);
+  font-weight: 700;
+  letter-spacing: -.055em;
+  line-height: 1.06;
+}
+
+.copy h1 span {
+  color: #f05b5b;
+}
+
+.copy p {
+  max-width: 550px;
+  margin: 22px 0 0;
+  color: rgba(241,245,255,.72);
+  font-size: clamp(.96rem, 1.5vw, 1.08rem);
+  line-height: 1.8;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 28px;
+}
+
+.primaryAction, .secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 47px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: .87rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.primaryAction { color: #fff; background: var(--accent); }
+.primaryAction:hover { background: #e13d3d; transform: translateY(-2px); }
+.secondaryAction { color: #fff; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.04); }
+.secondaryAction:hover { border-color: rgba(255,255,255,.48); background: rgba(255,255,255,.08); }
+
+.signal {
+  position: relative;
+  display: grid;
+  min-height: 260px;
+  place-items: center;
+}
+
+.signalRing {
+  position: absolute;
+  width: min(29vw, 290px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 50%;
+  box-shadow: 0 0 0 26px rgba(255,255,255,.025), 0 0 0 56px rgba(255,255,255,.02);
+}
+
+.signalCore {
+  display: grid;
+  width: 148px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.23);
+  border-radius: 50%;
+  color: rgba(255,255,255,.88);
+  background: radial-gradient(circle at 34% 25%, rgba(255,255,255,.17), rgba(255,255,255,.025) 72%);
+  box-shadow: 0 25px 90px rgba(0,0,0,.24), inset 0 0 30px rgba(255,255,255,.045);
+}
+
+.signalLabel {
+  position: absolute;
+  bottom: 6px;
+  color: rgba(255,255,255,.44);
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .21em;
+}
+
+.stats {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(255,255,255,.13);
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 78px;
+  padding: 12px 20px 4px 0;
+}
+
+.stat + .stat { padding-left: 23px; border-left: 1px solid rgba(255,255,255,.13); }
+.statIcon { display: grid; width: 36px; height: 36px; flex: 0 0 36px; place-items: center; border: 1px solid rgba(255,255,255,.16); border-radius: 10px; color: #f05b5b; }
+.stat strong, .stat small { display: block; }
+.stat strong { font-size: .84rem; font-weight: 700; }
+.stat small { margin-top: 2px; color: rgba(255,255,255,.54); font-size: .71rem; }
+
+@media (max-width: 720px) {
+  .inner { grid-template-columns: 1fr; min-height: 0; gap: 22px; padding-top: 57px; padding-bottom: 0; }
+  .copy h1 { font-size: clamp(2.55rem, 12vw, 4.2rem); }
+  .copy p { margin-top: 16px; font-size: .92rem; }
+  .signal { position: absolute; right: -14px; top: 20px; min-height: 180px; width: 160px; opacity: .23; pointer-events: none; }
+  .signalRing { width: 150px; }
+  .signalCore { width: 78px; }
+  .signalCore svg { width: 35px; }
+  .signalLabel { display: none; }
+  .stats { margin-top: 8px; }
+  .stat { min-height: 73px; gap: 8px; padding-right: 7px; }
+  .stat + .stat { padding-left: 9px; }
+  .statIcon { display: none; }
+  .stat strong { font-size: .72rem; }
+  .stat small { font-size: .62rem; line-height: 1.35; }
+}
+
+@media (max-width: 390px) {
+  .actions { display: grid; grid-template-columns: 1fr; }
+  .primaryAction, .secondaryAction { width: 100%; }
+  .stat small { font-size: .57rem; }
+}

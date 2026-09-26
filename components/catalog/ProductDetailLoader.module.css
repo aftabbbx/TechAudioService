@@ -1,0 +1,12 @@
+.loading { min-height: 70vh; padding: 38px 0 70px; background: var(--background); }
+.skeletonHero { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.skeletonHero > div { height: 430px; border-radius: 22px; background: linear-gradient(100deg,#edf0f4 30%,#f7f8fa 50%,#edf0f4 70%); background-size: 200% 100%; animation: shimmer 1.6s linear infinite; }
+.skeletonHero > div:last-child { height: 300px; }
+.skeletonSpecs { width: 76%; height: 220px; margin: 45px auto 0; border-radius: 14px; background: linear-gradient(100deg,#edf0f4 30%,#f7f8fa 50%,#edf0f4 70%); background-size: 200% 100%; animation: shimmer 1.6s linear infinite; }
+@keyframes shimmer { to { background-position-x: -200%; } }
+@media (max-width: 650px) {
+  .skeletonHero { grid-template-columns: 1fr; gap: 22px; }
+  .skeletonHero > div { height: 320px; }
+  .skeletonHero > div:last-child { height: 240px; }
+  .skeletonSpecs { width: 100%; margin-top: 28px; }
+}

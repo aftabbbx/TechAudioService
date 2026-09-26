@@ -1,13 +1,3 @@
-export const productCategories = [
-  "All",
-  "Amplifiers",
-  "DSP / Processing",
-  "Digital Speakers",
-  "Subwoofers",
-  "Speaker Management",
-  "Cinema Audio",
-];
-
 export const products = [
   {
     id: "dca4000",
@@ -152,4 +142,9 @@ export const products = [
     pdf: "/pdfs/products/csm800.pdf",
     featured: true,
   },
+];
+
+export const productCategories = [
+  "All",
+  ...new Set(products.map((product) => product.category)),
 ];

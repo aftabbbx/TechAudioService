@@ -12,14 +12,13 @@ export const siteConfig = {
       {
         name: "India Office",
         address:
-          "Plot 42, Electronic City Phase II, Bengaluru, Karnataka 560100, India",
+          "Building No. 12, 13, Khasra Nos. 41, 2, 3, Uday Vihar Part-3, M-Block, Nilothi Extension, New Delhi, West Delhi, Delhi 110041, India",
         mapUrl:
-          "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.9509203627796!2d77.6688!3d12.8452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDUwJzQyLjciTiA3N8KwNDAnMDcuNyJF!5e0!3m2!1sen!2sin!4v1234567890",
+          "https://www.google.com/maps?q=28.647605895996094,77.06446838378906&z=17&hl=en&output=embed",
       },
       {
-        name: "China Office",
-        address:
-          "Room 1208, Building A, Nanshan Technology Park, Shenzhen, Guangdong 518000, China",
+        name: "UK Office",
+        address: "168 Harehills Lane, Leeds LS8 5JP, United Kingdom",
         mapUrl: "",
       },
     ],
@@ -27,15 +26,15 @@ export const siteConfig = {
   },
 
   social: {
-    instagram: "https://instagram.com/audiotechservices",
-    facebook: "https://facebook.com/audiotechservices",
+    instagram: "https://www.instagram.com/audiotechservices?stkn=N2V5MHphZGdwc200",
+    facebook: "https://www.facebook.com/share/18TnRb8RtJ/",
     linkedin: "https://linkedin.com/company/audiotechservices",
-    youtube: "https://youtube.com/@audiotechservices",
+    youtube: "https://youtube.com/@servicesaudiotech?si=iU-AVIToYen0HLMN",
   },
 
   stats: {
-    years: { value: "25+", label: "Years" },
-    installations: { value: "1000+", label: "Installations" },
+    years: { value: "10+", label: "Years" },
+    installations: { value: "120+", label: "Installations" },
     models: { value: "50+", label: "Audio Models" },
     quality: { value: "100%", label: "Quality Tested" },
   },

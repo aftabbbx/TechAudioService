@@ -7,7 +7,7 @@ export function Map() {
   if (!mapUrl) {
     return (
       <div
-        className="rounded-xl overflow-hidden h-[300px] flex items-center justify-center"
+        className="contact-map rounded-xl overflow-hidden h-[300px] flex items-center justify-center"
         style={{ backgroundColor: "var(--surface-alt)" }}
       >
         <p className="text-sm" style={{ color: "var(--text-muted)" }}>Map unavailable</p>
@@ -16,7 +16,7 @@ export function Map() {
   }
 
   return (
-    <div className="rounded-xl overflow-hidden h-[300px]">
+    <div className="contact-map rounded-xl overflow-hidden h-[300px]">
       <iframe
         src={mapUrl}
         width="100%"

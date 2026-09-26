@@ -6,7 +6,7 @@ const marqueeItems = [
   "Cinema Sound Systems",
   "System Integration",
   "Installation & Support",
-  "25+ Years of Excellence",
+  "10+ Years of Excellence",
 ];
 
 /**

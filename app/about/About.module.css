@@ -1,0 +1,68 @@
+.page { background: var(--background); }
+.metrics { position: relative; overflow: hidden; padding: clamp(50px,7vw,82px) 0; color: #fff; background: linear-gradient(118deg,#0b1835,#102754 62%,#142e62); }
+.metrics::before { position: absolute; right: -190px; top: -300px; width: 630px; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.08); border-radius: 50%; box-shadow: 0 0 0 55px rgba(255,255,255,.02),0 0 0 110px rgba(255,255,255,.015); content: ""; pointer-events: none; }
+.metricsInner { position: relative; display: grid; grid-template-columns: minmax(0,.95fr) minmax(0,1.05fr); align-items: center; gap: clamp(32px,7vw,90px); }
+.metricsIntro h2 { max-width: 560px; margin: 0 0 15px; color: #fff; font-family: var(--font-display); font-size: clamp(1.9rem,3.5vw,3.15rem); line-height: 1.1; letter-spacing: -.045em; }
+.metricsIntro p { max-width: 590px; margin: 0; color: rgba(255,255,255,.68); font-size: .93rem; line-height: 1.85; }
+.stats { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: rgba(255,255,255,.035); backdrop-filter: blur(12px); }
+.stats > :global(div) { display: grid; min-height: 122px; align-content: center; padding: 17px; border-bottom: 1px solid rgba(255,255,255,.12); }
+.stats > :global(div:nth-child(odd)) { border-right: 1px solid rgba(255,255,255,.12); }
+.stats > :global(div:nth-last-child(-n+2)) { border-bottom: 0; }
+.philosophy { padding: clamp(62px,8vw,100px) 0; background: #fff; }
+.philosophy :global(.mb-14), .reach :global(.mb-14) { margin-bottom: 32px; }
+.philosophyGrid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 19px; }
+.philosophyCard, .industryCard { position: relative; height: 100%; padding: clamp(22px,3vw,34px); overflow: hidden; border: 1px solid #e5e9ef; border-radius: 16px; background: linear-gradient(145deg,#fff,#fbfcfe); box-shadow: 0 8px 30px rgba(19,42,98,.045); transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+.philosophyCard:hover, .industryCard:hover { transform: translateY(-5px); border-color: rgba(27,58,138,.2); box-shadow: 0 19px 45px rgba(19,42,98,.1); }
+.philosophyCard::before, .industryCard::before { position: absolute; top: 0; left: 24px; width: 44px; height: 3px; border-radius: 0 0 5px 5px; background: var(--accent); content: ""; }
+.iconBox { display: grid; width: 48px; height: 48px; margin-bottom: 20px; place-items: center; border: 1px solid rgba(27,58,138,.08); border-radius: 13px; color: var(--primary); background: linear-gradient(140deg,rgba(27,58,138,.1),rgba(27,58,138,.025)); }
+.philosophyCard h3, .industryCard h3 { margin: 0 0 9px; color: var(--text); font-family: var(--font-display); font-size: 1.12rem; line-height: 1.3; letter-spacing: -.025em; }
+.philosophyCard p, .industryCard p { margin: 0; color: var(--text-secondary); font-size: .84rem; line-height: 1.75; }
+.reach { padding: clamp(62px,8vw,100px) 0; background: #f3f5f8; }
+.industryGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 15px; }
+.industryCard { padding: 25px 20px; }
+.industryCard .iconBox { width: 44px; height: 44px; margin-bottom: 17px; }
+.industryCard h3 { font-size: .96rem; }
+.industryCard p { font-size: .78rem; }
+.quality { padding: clamp(55px,7vw,86px) 24px; background: #fff; }
+.qualityCard { position: relative; max-width: 920px; margin: 0 auto; padding: clamp(28px,5vw,58px); overflow: hidden; border: 1px solid #e2e7ef; border-radius: 22px; text-align: center; background: radial-gradient(ellipse at 50% 0%,rgba(27,58,138,.08),transparent 60%),#fff; box-shadow: 0 18px 55px rgba(19,42,98,.07); }
+.qualityIcon { display: grid; width: 58px; height: 58px; margin: 0 auto 18px; place-items: center; border: 1px solid rgba(27,58,138,.1); border-radius: 17px; color: var(--primary); background: #f1f4fa; }
+.qualityCard h2 { margin: 0 0 13px; color: var(--text); font-family: var(--font-display); font-size: clamp(1.5rem,3vw,2.15rem); letter-spacing: -.04em; }
+.qualityCard p { max-width: 720px; margin: 0 auto; color: var(--text-secondary); font-size: .9rem; line-height: 1.8; }
+.cta { padding: clamp(56px,7vw,86px) 24px; color: #fff; background: linear-gradient(118deg,#0b1835,#102754 62%,#142e62); }
+.ctaInner { text-align: center; }
+.ctaInner h2 { margin: 0 0 13px; color: #fff; font-family: var(--font-display); font-size: clamp(1.8rem,4vw,3rem); letter-spacing: -.045em; line-height: 1.15; }
+.ctaInner p { margin: 0 0 25px; color: rgba(255,255,255,.67); font-size: .93rem; }
+
+@media (max-width: 900px) {
+  .metricsInner { grid-template-columns: 1fr; gap: 26px; }
+  .metricsIntro { max-width: 720px; }
+  .stats { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .stats > :global(div) { min-height: 112px; border-right: 1px solid rgba(255,255,255,.12); border-bottom: 0; padding: 14px 9px; }
+  .stats > :global(div:nth-child(odd)) { border-right: 1px solid rgba(255,255,255,.12); }
+  .stats > :global(div:last-child) { border-right: 0; }
+  .industryGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media (max-width: 620px) {
+  .metrics { padding: 48px 0; }
+  .metricsInner { gap: 23px; }
+  .metricsIntro h2 { font-size: 1.85rem; }
+  .metricsIntro p { font-size: .84rem; }
+  .stats > :global(div) { min-height: 94px; padding: 12px 5px; }
+  .stats :global(.text-3xl) { margin-bottom: 2px; font-size: 1.62rem; }
+  .stats :global(.text-sm) { font-size: .58rem; letter-spacing: .06em; }
+  .philosophy, .reach { padding: 56px 0; }
+  .philosophy :global(.mb-14), .reach :global(.mb-14) { margin-bottom: 24px; }
+  .philosophyGrid, .industryGrid { grid-template-columns: 1fr; gap: 12px; }
+  .philosophyCard, .industryCard { padding: 22px; }
+  .iconBox { width: 43px; height: 43px; margin-bottom: 15px; }
+  .industryCard { display: grid; grid-template-columns: 44px minmax(0,1fr); column-gap: 13px; align-items: center; }
+  .industryCard .iconBox { grid-row: span 2; margin: 0; }
+  .industryCard h3 { align-self: end; margin-bottom: 3px; }
+  .industryCard p { align-self: start; }
+  .quality { padding: 44px 14px; }
+  .qualityCard { padding: 28px 20px; border-radius: 17px; }
+  .qualityCard p { font-size: .82rem; }
+  .cta { padding: 48px 16px; }
+  .ctaInner p { max-width: 330px; margin-right: auto; margin-left: auto; font-size: .84rem; }
+}

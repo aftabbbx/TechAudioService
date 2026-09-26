@@ -6,6 +6,7 @@ import Link from "next/link";
 import {
   LayoutDashboard,
   Package,
+  Tags,
   Film,
   LogOut,
   Menu,
@@ -17,6 +18,7 @@ import { useState } from "react";
 const navItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Products", icon: Package },
+  { href: "/admin/categories", label: "Categories", icon: Tags },
   { href: "/admin/cinema", label: "Cinema", icon: Film },
 ];
 

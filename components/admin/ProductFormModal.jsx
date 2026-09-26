@@ -1,25 +1,16 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { X, Upload, Loader2, AlertCircle, Check, ImageIcon, FileText, Plus, Trash2 } from "lucide-react";
 import { adminFetch } from "./adminFetch";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
-
-const CATEGORIES = [
-  "Amplifiers",
-  "DSP / Processing",
-  "Digital Speakers",
-  "Subwoofers",
-  "Speaker Management",
-  "Cinema Audio",
-];
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const EMPTY_FORM = {
   name: "",
   model: "",
   price: "",
-  category: "Amplifiers",
+  category: "",
   brand: "AudioTechServices",
   description: "",
   sku: "",
@@ -28,8 +19,9 @@ const EMPTY_FORM = {
   status: "active",
 };
 
-export function ProductFormModal({ product, onClose, onSuccess }) {
+export function ProductFormModal({ product, categories = [], onClose, onSuccess }) {
   const isEdit = Boolean(product);
+  const firstCategory = categories[0]?.name || categories[0] || "";
 
   const [form, setForm] = useState(
     isEdit
@@ -37,7 +29,7 @@ export function ProductFormModal({ product, onClose, onSuccess }) {
           name: product.name || "",
           model: product.model || "",
           price: product.price || "",
-          category: product.category || "Amplifiers",
+          category: product.category || firstCategory,
           brand: product.brand || "AudioTechServices",
           description: product.description || "",
           sku: product.sku || "",
@@ -45,8 +37,14 @@ export function ProductFormModal({ product, onClose, onSuccess }) {
           featured: product.featured || false,
           status: product.status || "active",
         }
-      : EMPTY_FORM
+      : { ...EMPTY_FORM, category: firstCategory }
   );
+
+  useEffect(() => {
+    if (!isEdit && !form.category && firstCategory) {
+      setForm((current) => ({ ...current, category: firstCategory }));
+    }
+  }, [firstCategory, form.category, isEdit]);
 
   // Specs — normalize to string[] regardless of what DB returns
   const [specs, setSpecs] = useState(() => {
@@ -257,9 +255,10 @@ export function ProductFormModal({ product, onClose, onSuccess }) {
                 value={form.category}
                 onChange={handleChange}
               >
-                {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
+                {categories.map((category) => {
+                  const categoryName = typeof category === "string" ? category : category.name;
+                  return <option key={categoryName} value={categoryName}>{categoryName}</option>;
+                })}
               </select>
             </div>
 

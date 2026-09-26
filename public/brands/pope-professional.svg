@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" role="img">
+  <g fill="none" stroke="#f15b3a" stroke-width="5">
+    <path d="M15 12h290v96H15zM15 75h290"/>
+  </g>
+  <text x="160" y="68" text-anchor="middle" fill="#f15b3a" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="800" letter-spacing="3">POPE</text>
+  <text x="160" y="99" text-anchor="middle" fill="#f15b3a" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" letter-spacing="2">PROFESSIONAL</text>
+</svg>

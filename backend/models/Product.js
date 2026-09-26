@@ -28,17 +28,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: [true, "Category is required"],
       trim: true,
-      enum: {
-        values: [
-          "Amplifiers",
-          "DSP / Processing",
-          "Digital Speakers",
-          "Subwoofers",
-          "Speaker Management",
-          "Cinema Audio",
-        ],
-        message: "Please select a valid category",
-      },
+      maxlength: [80, "Category cannot exceed 80 characters"],
     },
     brand: {
       type: String,

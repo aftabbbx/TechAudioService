@@ -6,7 +6,7 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { Package, CheckCircle, XCircle, Star, TrendingUp, ArrowRight } from "lucide-react";
 import { adminFetch } from "@/components/admin/adminFetch";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState(null);
