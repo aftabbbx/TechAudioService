@@ -21,7 +21,12 @@ export function ContactInfo() {
           <div className="contact-info-icon w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center shrink-0"><Phone size={18} /></div>
           <div>
             <p className="text-sm font-medium mb-1 opacity-50">Phone</p>
-            <a href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`} className="text-sm hover:underline">{siteConfig.contact.phone}</a>
+            <a
+              href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
+              className="block text-sm hover:underline"
+            >
+              {siteConfig.contact.phone}
+            </a>
           </div>
         </div>
         {siteConfig.contact.offices.map((office) => (

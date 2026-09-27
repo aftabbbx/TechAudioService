@@ -140,9 +140,13 @@ export function MobileMenu({ isOpen, onClose, pathname }) {
           <p className="text-sm font-medium mt-2" style={{ color: "var(--text-secondary)" }}>
             {siteConfig.contact.email}
           </p>
-          <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
+          <a
+            href={`tel:${siteConfig.contact.phone.replace(/\s/g, "")}`}
+            className="block text-sm mt-1"
+            style={{ color: "var(--text-secondary)" }}
+          >
             {siteConfig.contact.phone}
-          </p>
+          </a>
         </div>
       </div>
     </>

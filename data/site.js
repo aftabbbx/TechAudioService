@@ -7,7 +7,7 @@ export const siteConfig = {
 
   contact: {
     email: "info@audiotechservices.com",
-    phone: "+91 98765 43210",
+    phone: "+91 92179 86241",
     offices: [
       {
         name: "India Office",

@@ -293,9 +293,18 @@ body.modal-open { overflow: hidden; }
   will-change: transform, opacity;
 }
 
+.loader-logo-image {
+  display: block;
+  width: clamp(156px, 17vw, 220px);
+  max-width: 58vw;
+  max-height: 190px;
+  height: auto;
+  object-fit: contain;
+}
+
 .loader-line {
   position: absolute;
-  bottom: calc(50% - 52px);
+  bottom: calc(50% - 128px);
   left: 50%;
   transform: translateX(-50%);
   height: 1px;
@@ -306,7 +315,7 @@ body.modal-open { overflow: hidden; }
 
 .loader-progress {
   position: absolute;
-  bottom: calc(50% - 68px);
+  bottom: calc(50% - 148px);
   left: 50%;
   transform: translateX(-50%);
   width: 160px;
@@ -322,6 +331,25 @@ body.modal-open { overflow: hidden; }
   background: linear-gradient(90deg, var(--primary), var(--accent));
   border-radius: 1px;
   will-change: width;
+}
+
+@media (max-width: 600px) {
+  .loader-logo-image {
+    width: clamp(142px, 42vw, 172px);
+    max-width: 62vw;
+    max-height: 152px;
+  }
+
+  .loader-line {
+    bottom: calc(50% - 104px);
+    max-width: 58vw;
+  }
+
+  .loader-progress {
+    bottom: calc(50% - 122px);
+    width: 140px;
+    max-width: 50vw;
+  }
 }
 
 /* ============================================

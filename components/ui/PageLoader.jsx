@@ -118,7 +118,7 @@ export function PageLoader() {
         <img
           src="/logo.png"
           alt="AudioTechServices"
-          style={{ objectFit: "contain", maxWidth: "200px", maxHeight: "60px", width: "auto", height: "auto" }}
+          className="loader-logo-image"
         />
         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px" }}>
           <div className="tech-dot" style={{ animationDelay: "0s" }} />
@@ -131,13 +131,11 @@ export function PageLoader() {
       <div
         ref={lineRef}
         className="loader-line"
-        style={{ bottom: "calc(50% - 60px)" }}
       />
 
       {/* Progress bar */}
       <div
         className="loader-progress"
-        style={{ bottom: "calc(50% - 80px)" }}
       >
         <div ref={progressBarRef} className="loader-progress-bar" />
       </div>
