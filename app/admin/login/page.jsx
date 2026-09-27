@@ -1,22 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAdminAuth } from "@/components/admin/AdminAuthProvider";
 import { Loader2, Eye, EyeOff, AlertCircle, Shield } from "lucide-react";
 
 export default function AdminLoginPage() {
-  const { login, admin } = useAdminAuth();
+  const { login, admin, loading: authLoading } = useAdminAuth();
   const router = useRouter();
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // If already logged in, redirect
-  if (admin) {
-    router.replace("/admin/dashboard");
-    return null;
+  useEffect(() => {
+    if (!authLoading && admin) router.replace("/admin/dashboard");
+  }, [admin, authLoading, router]);
+
+  if (authLoading || admin) {
+    return (
+      <div className="admin-login-page">
+        <div className="admin-login-bg" />
+        <div className="admin-login-card" role="status" aria-live="polite">
+          <div className="admin-login-icon">
+            <Loader2 size={24} className="admin-spin" style={{ color: "var(--logo-red)" }} />
+          </div>
+          <p className="admin-login-subtitle">
+            {admin ? "Opening your dashboard…" : "Checking admin session…"}
+          </p>
+        </div>
+      </div>
+    );
   }
 
   const handleChange = (e) => {
@@ -33,7 +47,6 @@ export default function AdminLoginPage() {
     setLoading(true);
     try {
       await login(form.email.trim(), form.password);
-      router.replace("/admin/dashboard");
     } catch (err) {
       setError(err.message || "Login failed. Please check your credentials.");
     } finally {
