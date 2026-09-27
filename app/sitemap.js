@@ -5,8 +5,9 @@ export const dynamic = "force-dynamic";
 
 export default async function sitemap() {
   const [{ products }, cinemaProducts] = await Promise.all([
-    getProductCatalog(),
-    getCinemaCatalog(),
+    // Keep Googlebot's sitemap request fast when the free Render API is waking up.
+    getProductCatalog({ timeoutMs: 5000 }),
+    getCinemaCatalog({ timeoutMs: 5000 }),
   ]);
 
   const staticPages = [
