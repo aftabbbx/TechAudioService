@@ -1,107 +1,123 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+
+const INTERACTIVE_SELECTOR =
+  'a[href], button:not(:disabled), [role="button"], input, textarea, select, [contenteditable="true"], .cursor-hover-target';
+const TEXT_ENTRY_SELECTOR = 'input, textarea, select, [contenteditable="true"]';
+const WAVE_BARS = [0.72, 1.08, 0.84, 1.3, 0.9, 1.15, 0.68];
 
 export function CustomCursor() {
   const cursorRef = useRef(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isClicking, setIsClicking] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const posRef = useRef({ x: 0, y: 0 });
+  const positionRef = useRef({ x: 0, y: 0 });
   const targetRef = useRef({ x: 0, y: 0 });
-  const rafRef = useRef(null);
+  const frameRef = useRef(null);
+  const idleRef = useRef(null);
 
   useEffect(() => {
-    // Only enable on non-touch devices
-    const isTouch = window.matchMedia("(hover: none)").matches || 
-                    window.matchMedia("(pointer: coarse)").matches;
-    if (isTouch) return;
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!finePointer.matches || reducedMotion.matches) return;
 
-    document.body.classList.add("custom-cursor-active");
+    const cursor = cursorRef.current;
+    if (!cursor) return;
 
-    const onMouseMove = (e) => {
-      targetRef.current = { x: e.clientX, y: e.clientY };
-      if (!isVisible) setIsVisible(true);
-    };
-
-    const onMouseDown = () => setIsClicking(true);
-    const onMouseUp = () => setIsClicking(false);
-
-    const onMouseEnterInteractive = () => setIsHovering(true);
-    const onMouseLeaveInteractive = () => setIsHovering(false);
-
-    const onMouseLeave = () => setIsVisible(false);
-    const onMouseEnter = () => setIsVisible(true);
-
-    // Smooth follow animation loop
     const animate = () => {
-      const lerp = 0.15;
-      posRef.current.x += (targetRef.current.x - posRef.current.x) * lerp;
-      posRef.current.y += (targetRef.current.y - posRef.current.y) * lerp;
+      const position = positionRef.current;
+      const target = targetRef.current;
+      position.x += (target.x - position.x) * 0.24;
+      position.y += (target.y - position.y) * 0.24;
+      cursor.style.transform = `translate3d(${position.x}px, ${position.y}px, 0)`;
 
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`;
+      if (Math.abs(target.x - position.x) > 0.15 || Math.abs(target.y - position.y) > 0.15) {
+        frameRef.current = requestAnimationFrame(animate);
+      } else {
+        position.x = target.x;
+        position.y = target.y;
+        cursor.style.transform = `translate3d(${target.x}px, ${target.y}px, 0)`;
+        frameRef.current = null;
       }
-      rafRef.current = requestAnimationFrame(animate);
     };
 
-    // Attach interactive element listeners
-    const attachInteractiveListeners = () => {
-      const interactiveElements = document.querySelectorAll(
-        'a, button, [role="button"], input, textarea, select, .cursor-hover-target'
-      );
-      interactiveElements.forEach((el) => {
-        el.addEventListener("mouseenter", onMouseEnterInteractive);
-        el.addEventListener("mouseleave", onMouseLeaveInteractive);
-      });
-      return interactiveElements;
+    const onPointerMove = (event) => {
+      if (event.pointerType && event.pointerType !== "mouse") return;
+
+      const target = event.target instanceof Element ? event.target : null;
+      const textEntry = target?.closest(TEXT_ENTRY_SELECTOR);
+      if (textEntry) {
+        document.body.classList.remove("custom-cursor-active");
+        cursor.classList.remove("cursor-visible", "cursor-hover", "cursor-click");
+        cursor.style.setProperty("--cursor-tempo", ".72s");
+        cursor.style.setProperty("--cursor-scale", "1");
+        cursor.style.setProperty("--cursor-spectrum-scale", "1");
+        clearTimeout(idleRef.current);
+        return;
+      }
+
+      const deltaX = event.clientX - targetRef.current.x;
+      const deltaY = event.clientY - targetRef.current.y;
+      const energy = Math.min(1, Math.hypot(deltaX, deltaY) / 34);
+      targetRef.current = { x: event.clientX, y: event.clientY };
+      document.body.classList.add("custom-cursor-active");
+      cursor.classList.add("cursor-visible");
+      cursor.style.setProperty("--cursor-tempo", `${(0.82 - energy * 0.48).toFixed(2)}s`);
+      cursor.style.setProperty("--cursor-scale", (1 + energy * 0.12).toFixed(2));
+      cursor.style.setProperty("--cursor-spectrum-scale", (1 + energy * 0.3).toFixed(2));
+      clearTimeout(idleRef.current);
+      idleRef.current = setTimeout(() => {
+        cursor.style.setProperty("--cursor-tempo", ".72s");
+        cursor.style.setProperty("--cursor-scale", "1");
+        cursor.style.setProperty("--cursor-spectrum-scale", "1");
+      }, 110);
+      const interactive = target?.closest(INTERACTIVE_SELECTOR);
+      const label = cursor.querySelector(".cursor-label");
+      cursor.classList.toggle("cursor-hover", Boolean(interactive));
+      if (interactive) {
+        label.textContent =
+          interactive.getAttribute("data-cursor-label") ||
+          (interactive.matches('a[href]') ? "OPEN" : "SELECT");
+      } else {
+        label.textContent = "";
+      }
+      if (frameRef.current === null) frameRef.current = requestAnimationFrame(animate);
     };
 
-    document.addEventListener("mousemove", onMouseMove, { passive: true });
-    document.addEventListener("mousedown", onMouseDown);
-    document.addEventListener("mouseup", onMouseUp);
-    document.documentElement.addEventListener("mouseleave", onMouseLeave);
-    document.documentElement.addEventListener("mouseenter", onMouseEnter);
+    const onPointerDown = () => cursor.classList.add("cursor-click");
+    const onPointerUp = () => cursor.classList.remove("cursor-click");
+    const onPointerLeave = () => {
+      document.body.classList.remove("custom-cursor-active");
+      cursor.classList.remove("cursor-visible", "cursor-hover", "cursor-click");
+      cursor.style.setProperty("--cursor-tempo", ".72s");
+      cursor.style.setProperty("--cursor-scale", "1");
+      cursor.style.setProperty("--cursor-spectrum-scale", "1");
+      clearTimeout(idleRef.current);
+    };
 
-    let interactiveElements = attachInteractiveListeners();
-
-    // Re-attach on DOM changes (e.g. modal open/close)
-    const observer = new MutationObserver(() => {
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", onMouseEnterInteractive);
-        el.removeEventListener("mouseleave", onMouseLeaveInteractive);
-      });
-      interactiveElements = attachInteractiveListeners();
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    rafRef.current = requestAnimationFrame(animate);
+    document.addEventListener("pointermove", onPointerMove, { passive: true });
+    document.addEventListener("pointerdown", onPointerDown, { passive: true });
+    document.addEventListener("pointerup", onPointerUp, { passive: true });
+    document.documentElement.addEventListener("pointerleave", onPointerLeave);
 
     return () => {
       document.body.classList.remove("custom-cursor-active");
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mousedown", onMouseDown);
-      document.removeEventListener("mouseup", onMouseUp);
-      document.documentElement.removeEventListener("mouseleave", onMouseLeave);
-      document.documentElement.removeEventListener("mouseenter", onMouseEnter);
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", onMouseEnterInteractive);
-        el.removeEventListener("mouseleave", onMouseLeaveInteractive);
-      });
-      observer.disconnect();
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      document.removeEventListener("pointermove", onPointerMove);
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("pointerup", onPointerUp);
+      document.documentElement.removeEventListener("pointerleave", onPointerLeave);
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+      clearTimeout(idleRef.current);
     };
-  }, [isVisible]);
+  }, []);
 
   return (
-    <div
-      ref={cursorRef}
-      className={`custom-cursor ${isHovering ? "cursor-hover" : ""} ${isClicking ? "cursor-click" : ""}`}
-      style={{ opacity: isVisible ? 1 : 0 }}
-      aria-hidden="true"
-    >
-      <div className="cursor-dot" />
-      <div className="cursor-ring" />
+    <div ref={cursorRef} className="custom-cursor" aria-hidden="true">
+      <div className="cursor-orbit"><span className="cursor-beacon" /></div>
+      <div className="cursor-spectrum">
+        {WAVE_BARS.map((peak, index) => (
+          <i key={index} style={{ "--bar-peak": peak }} />
+        ))}
+      </div>
+      <span className="cursor-label" />
     </div>
   );
 }

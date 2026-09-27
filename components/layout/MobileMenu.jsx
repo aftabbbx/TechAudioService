@@ -93,10 +93,10 @@ export function MobileMenu({ isOpen, onClose, pathname }) {
             alt="AudioTechServices Logo"
             width={1329}
             height={1183}
-            sizes="160px"
+            sizes="180px"
             quality={82}
-            className="h-10 w-auto object-contain"
-            style={{ maxHeight: "40px", maxWidth: "160px" }}
+            className="h-auto w-auto object-contain"
+            style={{ maxHeight: "44px", maxWidth: "180px" }}
           />
           <button
             ref={closeRef}

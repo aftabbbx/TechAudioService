@@ -103,10 +103,9 @@ export function Header() {
               alt="AudioTechServices Logo"
               width={1329}
               height={1183}
-              sizes="200px"
+              sizes="(max-width: 767px) 190px, 220px"
               quality={82}
-              style={{ maxHeight: "36px", width: "auto", maxWidth: "200px", objectFit: "contain" }}
-              className="transition-transform duration-300 group-hover:scale-[1.02]"
+              className="header-logo h-auto w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
             />
           </Link>
 
