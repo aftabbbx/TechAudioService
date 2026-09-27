@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -32,9 +33,27 @@ export function Hero() {
   const stats = [siteConfig.stats.years, siteConfig.stats.installations, siteConfig.stats.models];
 
   useEffect(() => {
-    // Keep the first viewport immediately readable on phones. The reveal and
-    // parallax effects are decorative and otherwise delay LCP while JS hydrates.
-    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
+    const isMobile = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (isMobile && prefersReduced) return;
+
+    if (isMobile) {
+      const firstVisit = !sessionStorage.getItem("ats-loaded-v2");
+      const targets = [eyebrowRef.current, line1Ref.current, line2Ref.current, descRef.current, ctaRef.current, visualRef.current].filter(Boolean);
+      const stats = statsRef.current?.children ? [...statsRef.current.children] : [];
+      const ctx = gsap.context(() => {
+        gsap.set(targets, { opacity: 0, y: 14 });
+        gsap.set(stats, { opacity: 0, y: 10 });
+        gsap.timeline({ delay: firstVisit ? 1.05 : 0.06 })
+          .to(eyebrowRef.current, { opacity: 1, y: 0, duration: 0.32, ease: "power2.out" })
+          .to([line1Ref.current, line2Ref.current], { opacity: 1, y: 0, duration: 0.42, stagger: 0.07, ease: "power2.out" }, "-=0.16")
+          .to(descRef.current, { opacity: 1, y: 0, duration: 0.34, ease: "power2.out" }, "-=0.18")
+          .to(ctaRef.current, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, "-=0.12")
+          .to(stats, { opacity: 1, y: 0, duration: 0.28, stagger: 0.05, ease: "power2.out" }, "-=0.12")
+          .to(visualRef.current, { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" }, "-=0.22");
+      }, sectionRef);
+      return () => ctx.revert();
+    }
 
     const ctx = gsap.context(() => {
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -45,7 +64,7 @@ export function Hero() {
       }
 
       // Check if loader was shown
-      const hasLoaded = sessionStorage.getItem("ats-loaded");
+      const hasLoaded = sessionStorage.getItem("ats-loaded-v2");
       const startDelay = hasLoaded ? 0.1 : 2.0;
 
       const tl = gsap.timeline({
@@ -314,9 +333,13 @@ export function Hero() {
 
                 {/* Large ATS logo mark */}
                 <div className="mb-8">
-                  <img
+                  <Image
                     src="/logo.png"
                     alt="ATS"
+                    width={1329}
+                    height={1183}
+                    sizes="200px"
+                    quality={82}
                     className=""
                     style={{
                       maxWidth: "200px",

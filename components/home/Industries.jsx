@@ -21,8 +21,6 @@ export function Industries() {
   useEffect(() => {
     const grid = gridRef.current;
     if (!grid) return;
-    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
-
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 

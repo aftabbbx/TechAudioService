@@ -35,8 +35,6 @@ export function BrandDNA() {
   useEffect(() => {
     const container = cardsRef.current;
     if (!container) return;
-    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
-
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 

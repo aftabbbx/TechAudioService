@@ -37,7 +37,7 @@
 
 @media (max-width: 600px) {
   .card { border-radius: 15px; }
-  .visual { aspect-ratio: 1.48; }
+  .visual { aspect-ratio: 1.56; }
   .image { padding: 16px; }
   .content { padding: 16px 16px 13px; }
   .titleLink h2 { font-size: 1.12rem; }

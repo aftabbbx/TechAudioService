@@ -38,4 +38,5 @@
   .filters { margin: 0 -1px; padding-bottom: 2px; }
   .filter { min-height: 34px; padding: 0 10px; font-size: .7rem; }
   .grid { grid-template-columns: minmax(0,1fr); gap: 13px; }
+  .empty { padding: 44px 17px; }
 }

@@ -16,8 +16,6 @@ export function CTA() {
     const section = sectionRef.current;
     const content = contentRef.current;
     if (!section || !content) return;
-    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
-
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 

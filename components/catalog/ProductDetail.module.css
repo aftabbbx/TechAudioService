@@ -68,8 +68,8 @@
   .page { padding-bottom: 58px; }
   .breadcrumb { min-height: 54px; gap: 6px; font-size: .63rem; }
   .productHero { grid-template-columns: 1fr; gap: 25px; padding-top: 4px; padding-bottom: 43px; }
-  .imageStage { min-height: 0; aspect-ratio: 1.1; border-radius: 18px; }
-  .productImage { padding: 26px; }
+  .imageStage { min-height: 0; aspect-ratio: 1.28; border-radius: 18px; }
+  .productImage { padding: clamp(18px, 6vw, 26px); }
   .assurance { justify-content: flex-start; }
   .summary h1 { margin-top: 8px; font-size: clamp(2.05rem,10vw,3rem); }
   .description { font-size: .9rem; }
@@ -79,7 +79,8 @@
   .actions { display: grid; grid-template-columns: 1fr 1fr; }
   .quote, .datasheet, .unavailable { min-height: 46px; padding: 0 10px; font-size: .75rem; }
   .details { padding-top: 32px; padding-bottom: 36px; }
-  .specRow { grid-template-columns: minmax(100px,.7fr) minmax(0,1.3fr); padding: 12px 14px; font-size: .73rem; }
+  .specRow { grid-template-columns: minmax(90px,.7fr) minmax(0,1.3fr); gap: 9px; padding: 12px 14px; font-size: .73rem; }
+  .specRow > span, .specRow strong { overflow-wrap: anywhere; }
   .relatedHeader { align-items: flex-start; flex-direction: column; gap: 10px; }
   .relatedGrid { grid-template-columns: 1fr; gap: 13px; }
 }

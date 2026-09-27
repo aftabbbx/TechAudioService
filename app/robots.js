@@ -6,10 +6,11 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/api/", "/_next/"],
+        // Keep Next.js assets crawlable so search engines can render pages.
+        // Admin routes send noindex metadata; let crawlers read that directive.
+        disallow: ["/api/"],
       },
     ],
-    host: SITE_URL,
     sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

@@ -8,7 +8,7 @@ import styles from "./About.module.css";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
-  title: "About AudioTechServices",
+  title: "About",
   description: "Learn about AudioTechServices, our professional audio engineering approach, system integration expertise, and the venues we serve.",
   path: "/about",
 });

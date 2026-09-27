@@ -24,8 +24,6 @@ export function Ecosystem() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
-
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
       gsap.set([imageRef.current], { opacity: 1, clipPath: "inset(0 0 0% 0)" });

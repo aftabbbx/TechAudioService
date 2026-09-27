@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 
 export function PageLoader() {
@@ -12,23 +13,19 @@ export function PageLoader() {
 
   useEffect(() => {
     // Only show on first visit per session
-    const hasLoaded = sessionStorage.getItem("ats-loaded");
+    const hasLoaded = sessionStorage.getItem("ats-loaded-v2");
     if (hasLoaded) return;
 
-    // Avoid blocking the first mobile paint with a decorative full-screen intro.
-    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) {
-      sessionStorage.setItem("ats-loaded", "1");
-      return;
-    }
+    const isMobile = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
 
     // Respect reduced motion
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
-      sessionStorage.setItem("ats-loaded", "1");
+      sessionStorage.setItem("ats-loaded-v2", "1");
       return;
     }
 
-    setShow(true);
+    const showTimeout = setTimeout(() => setShow(true), 0);
     document.body.style.overflow = "hidden";
 
     // Wait for refs to be available after setState
@@ -42,12 +39,24 @@ export function PageLoader() {
 
       const tl = gsap.timeline({
         onComplete: () => {
-          sessionStorage.setItem("ats-loaded", "1");
+          sessionStorage.setItem("ats-loaded-v2", "1");
           document.body.style.overflow = "";
           // Brief delay before unmounting
           setTimeout(() => setShow(false), 100);
         },
       });
+
+      if (isMobile) {
+        gsap.set(logo, { opacity: 0, y: 12 });
+        gsap.set(line, { scaleX: 0, opacity: 0, transformOrigin: "center" });
+        gsap.set(bar, { scaleX: 0, transformOrigin: "left" });
+        tl.to(logo, { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" })
+          .to(line, { scaleX: 1, opacity: 1, duration: 0.28, ease: "power2.out" }, "-=0.18")
+          .to(bar, { scaleX: 1, duration: 0.3, ease: "power1.inOut" }, "-=0.08")
+          .to(logo, { opacity: 0, y: -8, duration: 0.22, ease: "power1.in" }, "+=0.08")
+          .to(overlay, { yPercent: -100, duration: 0.4, ease: "power2.inOut" }, "-=0.08");
+        return;
+      }
 
       // 0.0s — Initial state set
       gsap.set(logo, { opacity: 0, y: 28, filter: "blur(8px)" });
@@ -96,7 +105,7 @@ export function PageLoader() {
       }, "<")
 
       // 1.3s — Overlay slides up and off
-      .to(overlay, {
+        .to(overlay, {
         clipPath: "inset(0 0 100% 0)",
         duration: 0.65,
         ease: "power4.inOut",
@@ -105,6 +114,7 @@ export function PageLoader() {
     }, 50);
 
     return () => {
+      clearTimeout(showTimeout);
       clearTimeout(timeout);
       document.body.style.overflow = "";
     };
@@ -116,14 +126,19 @@ export function PageLoader() {
     <div
       ref={overlayRef}
       className="page-loader"
-      style={{ clipPath: "inset(0 0 0% 0)" }}
+      style={{ clipPath: "inset(0 0 0% 0)", willChange: "transform" }}
       aria-hidden="true"
     >
       {/* Logo */}
       <div ref={logoRef} className="loader-logo relative z-10 flex flex-col items-center gap-3">
-        <img
+        <Image
           src="/logo.png"
           alt="AudioTechServices"
+          width={1329}
+          height={1183}
+          sizes="220px"
+          quality={82}
+          priority
           className="loader-logo-image"
         />
         <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "6px" }}>

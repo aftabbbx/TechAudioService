@@ -1,11 +1,12 @@
+import Image from "next/image";
 import styles from "./BrandCarousel.module.css";
 
 const brands = [
-  { name: "Dolby", image: "/uploads/home/untitled%20folder/Firefly%20%286%29.png" },
-  { name: "N-LABS", image: "/uploads/home/untitled%20folder/Firefly%20%282%29.png" },
-  { name: "JBL", image: "/uploads/home/untitled%20folder/Firefly%20%283%29.png" },
-  { name: "POPE Professional", image: "/uploads/home/untitled%20folder/Firefly%20%284%29.png" },
-  { name: "A-Plus", image: "/uploads/home/untitled%20folder/Firefly%20%285%29.png" },
+  { name: "Dolby", image: "/uploads/home/untitled%20folder/Firefly%20%286%29.png", width: 1920, height: 1080 },
+  { name: "N-LABS", image: "/uploads/home/untitled%20folder/Firefly%20%282%29.png", width: 1254, height: 1254 },
+  { name: "JBL", image: "/uploads/home/untitled%20folder/Firefly%20%283%29.png", width: 1600, height: 900 },
+  { name: "POPE Professional", image: "/uploads/home/untitled%20folder/Firefly%20%284%29.png", width: 659, height: 466 },
+  { name: "A-Plus", image: "/uploads/home/untitled%20folder/Firefly%20%285%29.png", width: 1600, height: 533 },
 ];
 
 function BrandGroup({ duplicate = false }) {
@@ -13,7 +14,14 @@ function BrandGroup({ duplicate = false }) {
     <div className={styles.group} aria-hidden={duplicate || undefined}>
       {brands.map((brand) => (
         <div className={styles.logo} key={brand.name}>
-          <img src={brand.image} alt={duplicate ? "" : brand.name} loading="lazy" decoding="async" />
+          <Image
+            src={brand.image}
+            alt={duplicate ? "" : brand.name}
+            width={brand.width}
+            height={brand.height}
+            sizes="(max-width: 640px) 168px, 240px"
+            quality={80}
+          />
         </div>
       ))}
     </div>

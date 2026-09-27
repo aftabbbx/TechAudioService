@@ -1,7 +1,7 @@
 import { ProductDetailLoader } from "@/components/catalog/ProductDetailLoader";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getCinemaProductBySlug } from "@/lib/catalog";
-import { buildPageMetadata, productStructuredData } from "@/lib/seo";
+import { breadcrumbStructuredData, buildPageMetadata, productStructuredData } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -34,6 +34,11 @@ export default async function CinemaProductDetailsPage({ params }) {
   return (
     <>
       {product && <JsonLd data={productStructuredData(product, `/cinema/${slug}`)} />}
+      {product && <JsonLd data={breadcrumbStructuredData({
+        section: "Cinema",
+        sectionPath: "/cinema",
+        item: { name: product.name, path: `/cinema/${slug}` },
+      })} />}
       <ProductDetailLoader basePath="/cinema" slug={slug} initialProduct={product} />
     </>
   );

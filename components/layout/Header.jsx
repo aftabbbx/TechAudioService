@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { gsap } from "gsap";
@@ -24,11 +25,13 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); }, [pathname]);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setMobileOpen(false));
+    return () => window.cancelAnimationFrame(frame);
+  }, [pathname]);
 
   // Entrance animation on mount
   useEffect(() => {
-    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 
@@ -42,7 +45,8 @@ export function Header() {
         gsap.set(menuBtnRef.current, { opacity: 0, y: -10 });
       }
 
-      const tl = gsap.timeline({ delay: 1.9 }); // After loader completes
+      const isMobile = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
+      const tl = gsap.timeline({ delay: isMobile ? 1.2 : 1.9 }); // After loader completes
 
       tl.to(
         logoRef.current,
@@ -94,9 +98,13 @@ export function Header() {
             className="flex items-center focus-ring group"
             aria-label="AudioTechServices Home"
           >
-            <img
+            <Image
               src="/logo.png"
               alt="AudioTechServices Logo"
+              width={1329}
+              height={1183}
+              sizes="200px"
+              quality={82}
               style={{ maxHeight: "36px", width: "auto", maxWidth: "200px", objectFit: "contain" }}
               className="transition-transform duration-300 group-hover:scale-[1.02]"
             />

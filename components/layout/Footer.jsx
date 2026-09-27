@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { siteConfig } from "@/data/site";
 
@@ -40,9 +41,13 @@ export function Footer() {
           <div>
             <div className="mb-5">
               <Link href="/" aria-label="AudioTechServices Home">
-                <img
+                <Image
                   src="/logo.png"
                   alt="AudioTechServices Logo"
+                  width={1329}
+                  height={1183}
+                  sizes="(max-width: 767px) 160px, 220px"
+                  quality={82}
                   className="w-auto object-contain"
                   style={{ maxHeight: "45px" }}
                 />

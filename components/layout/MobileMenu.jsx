@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { X } from "lucide-react";
 import { gsap } from "gsap";
 import { navigation } from "@/data/navigation";
@@ -87,9 +88,13 @@ export function MobileMenu({ isOpen, onClose, pathname }) {
           className="flex items-center justify-between p-5 border-b"
           style={{ borderColor: "var(--border)" }}
         >
-          <img
+          <Image
             src="/logo.png"
             alt="AudioTechServices Logo"
+            width={1329}
+            height={1183}
+            sizes="160px"
+            quality={82}
             className="h-10 w-auto object-contain"
             style={{ maxHeight: "40px", maxWidth: "160px" }}
           />

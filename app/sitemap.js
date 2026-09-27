@@ -3,6 +3,18 @@ import { SITE_URL } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
+function sitemapImage(image) {
+  if (!image) return null;
+
+  try {
+    const url = new URL(image, `${SITE_URL}/`);
+    if (url.protocol !== "https:" || /^(localhost|127\.0\.0\.1)$/i.test(url.hostname)) return null;
+    return url.href;
+  } catch {
+    return null;
+  }
+}
+
 export default async function sitemap() {
   const [{ products }, cinemaProducts] = await Promise.all([
     // Keep Googlebot's sitemap request fast when the free Render API is waking up.
@@ -19,19 +31,25 @@ export default async function sitemap() {
     { url: `${SITE_URL}/contact`, changeFrequency: "monthly", priority: 0.7 },
   ];
 
-  const productPages = products.map((product) => ({
-    url: `${SITE_URL}/products/${product.slug}`,
-    changeFrequency: "weekly",
-    priority: 0.75,
-    ...(product.image?.startsWith("https://") ? { images: [product.image] } : {}),
-  }));
+  const productPages = products.map((product) => {
+    const image = sitemapImage(product.image);
+    return {
+      url: `${SITE_URL}/products/${product.slug}`,
+      changeFrequency: "weekly",
+      priority: 0.75,
+      ...(image ? { images: [image] } : {}),
+    };
+  });
 
-  const cinemaPages = cinemaProducts.map((product) => ({
-    url: `${SITE_URL}/cinema/${product.slug}`,
-    changeFrequency: "weekly",
-    priority: 0.75,
-    ...(product.image?.startsWith("https://") ? { images: [product.image] } : {}),
-  }));
+  const cinemaPages = cinemaProducts.map((product) => {
+    const image = sitemapImage(product.image);
+    return {
+      url: `${SITE_URL}/cinema/${product.slug}`,
+      changeFrequency: "weekly",
+      priority: 0.75,
+      ...(image ? { images: [image] } : {}),
+    };
+  });
 
   return [...staticPages, ...productPages, ...cinemaPages];
 }

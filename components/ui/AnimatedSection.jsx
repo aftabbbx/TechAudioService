@@ -37,10 +37,6 @@ export function AnimatedSection({
     const el = ref.current;
     if (!el) return;
 
-    // Mobile pages use native scrolling and render every section immediately.
-    // This avoids keeping below-the-fold content transparent until JS runs.
-    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
-
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
       gsap.set(el, { opacity: 1, x: 0, y: 0 });
@@ -72,6 +68,32 @@ export function AnimatedSection({
         scrub: scrub ? 1 : false,
       },
     };
+
+    const isMobile = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
+    if (isMobile) {
+      const mobileFrom = { opacity: 0, y: direction === "down" ? -18 : 18 };
+      if (direction === "left") mobileFrom.x = -18;
+      if (direction === "right") mobileFrom.x = 18;
+      gsap.set(el, mobileFrom);
+      const reveal = () => gsap.to(el, {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        duration: Math.min(duration, 0.48),
+        delay: Math.min(typeof delay === "number" && delay > 10 ? delay / 1000 : delay, 0.12),
+        ease: "power2.out",
+      });
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        reveal();
+        observer.disconnect();
+      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+      observer.observe(el);
+      return () => {
+        observer.disconnect();
+        gsap.killTweensOf(el);
+      };
+    }
 
     // Set initial state
     gsap.set(el, fromVars);
