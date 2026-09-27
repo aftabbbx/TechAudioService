@@ -6,7 +6,7 @@ export const siteConfig = {
   url: "https://audiotechservices.com",
 
   contact: {
-    email: "info@audiotechservices.com",
+    email: "info@audiotechservices.in",
     phone: "+91 92179 86241",
     offices: [
       {
@@ -28,7 +28,6 @@ export const siteConfig = {
   social: {
     instagram: "https://www.instagram.com/audiotechservices?stkn=N2V5MHphZGdwc200",
     facebook: "https://www.facebook.com/share/18TnRb8RtJ/",
-    linkedin: "https://linkedin.com/company/audiotechservices",
     youtube: "https://youtube.com/@servicesaudiotech?si=iU-AVIToYen0HLMN",
   },
 
