@@ -7,6 +7,7 @@ import { BackToTop } from "@/components/ui/BackToTop";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { PageLoader } from "@/components/ui/PageLoader";
+import { siteConfig } from "@/data/site";
 import { headers } from "next/headers";
 
 const manrope = Manrope({
@@ -24,24 +25,31 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
-  title: "AudioTechServices | Professional Audio Engineering & System Integration",
+  title: {
+    default: "Pro Audio Systems & Cinema Sound | AudioTechServices",
+    template: "%s | AudioTechServices",
+  },
   description:
-    "Professional audio engineering, amplifiers, DSP processing, cinema sound systems, speaker systems, installation and maintenance.",
-  metadataBase: new URL("https://audiotechservices.com"),
+    "AudioTechServices designs and installs professional audio systems, cinema sound, amplifiers and DSP solutions for commercial venues.",
+  applicationName: siteConfig.name,
+  metadataBase: new URL(siteConfig.url),
+  icons: {
+    icon: "/logo.png",
+  },
   openGraph: {
-    title: "AudioTechServices | Professional Audio Engineering & System Integration",
-    description:
-      "Professional audio engineering, amplifiers, DSP processing, cinema sound systems, speaker systems, installation and maintenance.",
-    url: "https://audiotechservices.com",
+    title: "Pro Audio Systems & Cinema Sound | AudioTechServices",
+    description: "Professional audio design, cinema sound, installation and integration from AudioTechServices.",
+    url: "/",
     siteName: "AudioTechServices",
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
+    images: [{ url: "/logo.png", alt: "AudioTechServices logo" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AudioTechServices | Professional Audio Engineering",
-    description:
-      "Professional audio engineering, amplifiers, DSP processing, cinema sound systems.",
+    title: "Pro Audio Systems & Cinema Sound | AudioTechServices",
+    description: "Professional audio design, cinema sound, installation and integration.",
+    images: ["/logo.png"],
   },
   robots: { index: true, follow: true },
 };

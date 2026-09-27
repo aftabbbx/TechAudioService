@@ -24,6 +24,7 @@ export function Ecosystem() {
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
@@ -86,7 +87,7 @@ export function Ecosystem() {
           <div
             ref={imageRef}
             className="relative image-reveal-wrapper"
-            style={{ opacity: 0, clipPath: "inset(100% 0 0% 0)" }}
+            style={{ opacity: 1 }}
           >
             <div
               className="relative overflow-hidden rounded-2xl"
@@ -187,7 +188,7 @@ export function Ecosystem() {
                 <li
                   key={feature}
                   className="feature-item flex items-center gap-3.5"
-                  style={{ opacity: 0 }}
+                  style={{ opacity: 1 }}
                 >
                   <div
                     className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"

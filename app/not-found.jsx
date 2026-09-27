@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/Button";
 
 export const metadata = {
-  title: "AudioTechServices | Page Not Found",
+  title: "Page Not Found",
+  robots: { index: false, follow: true },
 };
 
 export default function NotFound() {

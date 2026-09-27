@@ -35,6 +35,7 @@ export function BrandDNA() {
   useEffect(() => {
     const container = cardsRef.current;
     if (!container) return;
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
@@ -99,7 +100,7 @@ export function BrandDNA() {
             <div
               key={card.title}
               className="dna-card card-premium group p-8 relative"
-              style={{ opacity: 0 }}
+              style={{ opacity: 1 }}
             >
               {/* Number — large background */}
               <div className="card-number">{card.number}</div>

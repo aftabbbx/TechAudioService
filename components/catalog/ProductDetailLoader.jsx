@@ -11,14 +11,19 @@ import {
 import { getApiBaseUrl } from "@/lib/api-url";
 import styles from "./ProductDetailLoader.module.css";
 
-export function ProductDetailLoader({ basePath, slug }) {
+export function ProductDetailLoader({ basePath, slug, initialProduct = null }) {
   const cinema = basePath === "/cinema";
-  const [product, setProduct] = useState(() => cinema
+  const [product, setProduct] = useState(() => initialProduct || (cinema
     ? staticCinemaProducts.map(normalizeStaticCinemaProduct).find((item) => item.slug === slug) || null
-    : null);
-  const [loadState, setLoadState] = useState("loading");
+    : null));
+  const [loadState, setLoadState] = useState(initialProduct ? "ready" : "loading");
 
   useEffect(() => {
+    if (initialProduct) {
+      setProduct(initialProduct);
+      setLoadState("ready");
+      return undefined;
+    }
     let cancelled = false;
     const loadProduct = async () => {
       setProduct(null);
@@ -60,7 +65,7 @@ export function ProductDetailLoader({ basePath, slug }) {
 
     loadProduct();
     return () => { cancelled = true; };
-  }, [basePath, cinema, slug]);
+  }, [basePath, cinema, initialProduct, slug]);
 
   if (loadState === "loading") {
     return (

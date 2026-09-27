@@ -19,13 +19,15 @@ export function SmoothScroll({ children }) {
   useEffect(() => {
     // Respect reduced motion preference
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isTouch = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
+    if (prefersReduced || isTouch) return;
 
     const lenis = new Lenis({
-      duration: prefersReduced ? 0 : 1.2,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
-      smoothWheel: !prefersReduced,
+      smoothWheel: true,
       touchMultiplier: 2,
     });
 
@@ -34,13 +36,14 @@ export function SmoothScroll({ children }) {
     // Connect Lenis to GSAP's ticker for perfect frame sync
     lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const tickerCallback = (time) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(tickerCallback);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(tickerCallback);
       lenis.destroy();
       lenisRef.current = null;
     };

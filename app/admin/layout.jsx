@@ -3,7 +3,7 @@ import { AdminGuard } from "@/components/admin/AdminGuard";
 import "@/app/admin.css";
 
 export const metadata = {
-  title: "Admin | AudioTechServices",
+  title: "Admin",
   description: "AudioTechServices Admin Panel",
   robots: { index: false, follow: false },
 };

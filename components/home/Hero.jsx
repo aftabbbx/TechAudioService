@@ -32,6 +32,10 @@ export function Hero() {
   const stats = [siteConfig.stats.years, siteConfig.stats.installations, siteConfig.stats.models];
 
   useEffect(() => {
+    // Keep the first viewport immediately readable on phones. The reveal and
+    // parallax effects are decorative and otherwise delay LCP while JS hydrates.
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
+
     const ctx = gsap.context(() => {
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (prefersReduced) {
@@ -187,7 +191,7 @@ export function Hero() {
               <span
                 ref={eyebrowRef}
                 className="section-eyebrow"
-                style={{ opacity: 0 }}
+                style={{ opacity: 1 }}
               >
                 Professional Audio Engineering
               </span>
@@ -199,7 +203,7 @@ export function Hero() {
                 <div
                   ref={line1Ref}
                   className="display-hero"
-                  style={{ color: "var(--text)", opacity: 0 }}
+                  style={{ color: "var(--text)" }}
                 >
                   Engineering
                 </div>
@@ -208,7 +212,7 @@ export function Hero() {
                 <div
                   ref={line2Ref}
                   className="display-hero"
-                  style={{ opacity: 0 }}
+                  style={{ opacity: 1 }}
                 >
                   <span style={{ color: "var(--accent)" }}>Authority</span>
                   {" "}in Sound
@@ -220,13 +224,13 @@ export function Hero() {
             <p
               ref={descRef}
               className="text-base md:text-lg leading-relaxed mb-9 max-w-lg"
-              style={{ color: "var(--text-secondary)", opacity: 0, fontWeight: 400 }}
+              style={{ color: "var(--text-secondary)", fontWeight: 400 }}
             >
               Professional power amplifiers, DSP processors, cinema-grade audio systems, and complete system integration — engineered for performance, reliability, and long-term operational excellence.
             </p>
 
             {/* CTAs */}
-            <div ref={ctaRef} className="flex flex-wrap gap-4 mb-12" style={{ opacity: 0 }}>
+            <div ref={ctaRef} className="flex flex-wrap gap-4 mb-12">
               <Button href="/products" size="lg">
                 Explore Products <ArrowRight size={17} className="btn-arrow" />
               </Button>
@@ -238,7 +242,7 @@ export function Hero() {
             {/* Stats */}
             <div ref={statsRef} className="flex gap-10">
               {stats.map((stat, i) => (
-                <div key={i} style={{ opacity: 0 }}>
+                <div key={i}>
                   <div
                     className="font-display"
                     style={{
@@ -266,7 +270,7 @@ export function Hero() {
           <div
             ref={visualRef}
             className="relative"
-            style={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
+            style={{ opacity: 1 }}
           >
             <div
               className="relative rounded-2xl overflow-hidden"

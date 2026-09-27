@@ -28,6 +28,7 @@ export function Header() {
 
   // Entrance animation on mount
   useEffect(() => {
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 

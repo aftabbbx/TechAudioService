@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/Button";
 import { InteriorHero } from "@/components/layout/InteriorHero";
 import { Signal, Thermometer, Plug, Music, Building2, Church, Presentation, ArrowRight, ShieldCheck } from "lucide-react";
 import styles from "./About.module.css";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "AudioTechServices | About Us",
-  description: "Learn about AudioTechServices — professional audio engineering, amplifiers, DSP processing, and system integration.",
-};
+export const metadata = buildPageMetadata({
+  title: "About AudioTechServices",
+  description: "Learn about AudioTechServices, our professional audio engineering approach, system integration expertise, and the venues we serve.",
+  path: "/about",
+});
 
 const philosophy = [
   { icon: Signal, title: "Pure Signal Integrity", description: "Every circuit path is optimized for minimal noise and distortion." },

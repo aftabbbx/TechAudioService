@@ -6,10 +6,19 @@ import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { Industries } from "@/components/home/Industries";
 import { CTA } from "@/components/home/CTA";
 import { Marquee } from "@/components/ui/Marquee";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildPageMetadata, siteStructuredData } from "@/lib/seo";
+
+export const metadata = buildPageMetadata({
+  title: "Pro Audio Systems & Cinema Sound",
+  description: "Explore professional audio systems, cinema sound, amplifiers, DSP processing, installation and support from AudioTechServices in India and the UK.",
+  path: "/",
+});
 
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={siteStructuredData()} />
       <Hero />
       <BrandDNA />
       <BrandCarousel />

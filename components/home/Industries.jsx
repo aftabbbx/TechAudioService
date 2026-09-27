@@ -21,6 +21,7 @@ export function Industries() {
   useEffect(() => {
     const grid = gridRef.current;
     if (!grid) return;
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
@@ -103,8 +104,7 @@ export function Industries() {
                 borderRadius: "var(--radius-lg)",
                 border: "1px solid var(--border)",
                 backgroundColor: "var(--background)",
-                opacity: 0,
-                clipPath: "inset(100% 0 0% 0)",
+                opacity: 1,
                 cursor: "default",
               }}
             >

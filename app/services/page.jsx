@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/Button";
 import { InteriorHero } from "@/components/layout/InteriorHero";
 import { Film, Building, Wrench, ArrowRight, Check } from "lucide-react";
 import styles from "./Services.module.css";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "AudioTechServices | Professional Audio Services",
-  description: "Professional audio services — cinema & theatre audio, commercial installations, maintenance & AMC, system design, and technical support.",
-};
+export const metadata = buildPageMetadata({
+  title: "Professional Audio Installation & AMC Services",
+  description: "Audio system consultation, design, cinema and theatre installation, commissioning, maintenance contracts and technical support.",
+  path: "/services",
+});
 
 const mainServices = [
   {

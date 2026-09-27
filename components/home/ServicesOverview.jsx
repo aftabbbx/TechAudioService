@@ -15,6 +15,7 @@ export function ServicesOverview() {
   useEffect(() => {
     const grid = gridRef.current;
     if (!grid) return;
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
@@ -103,7 +104,7 @@ export function ServicesOverview() {
                 border: "1px solid rgba(255,255,255,0.08)",
                 borderRadius: "var(--radius-lg)",
                 padding: "2rem",
-                opacity: 0,
+                opacity: 1,
                 transition: "border-color 0.35s ease",
               }}
             >

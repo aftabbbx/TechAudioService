@@ -3,7 +3,7 @@ export const siteConfig = {
   tagline: "Engineering Authority in Sound",
   description:
     "Professional audio engineering, amplifiers, DSP processing, cinema sound systems, speaker systems, installation and maintenance.",
-  url: "https://audiotechservices.com",
+  url: "https://www.audiotechservices.in",
 
   contact: {
     email: "info@audiotechservices.in",

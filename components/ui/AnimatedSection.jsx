@@ -37,6 +37,10 @@ export function AnimatedSection({
     const el = ref.current;
     if (!el) return;
 
+    // Mobile pages use native scrolling and render every section immediately.
+    // This avoids keeping below-the-fold content transparent until JS runs.
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
+
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
       gsap.set(el, { opacity: 1, x: 0, y: 0 });

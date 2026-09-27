@@ -15,6 +15,12 @@ export function PageLoader() {
     const hasLoaded = sessionStorage.getItem("ats-loaded");
     if (hasLoaded) return;
 
+    // Avoid blocking the first mobile paint with a decorative full-screen intro.
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) {
+      sessionStorage.setItem("ats-loaded", "1");
+      return;
+    }
+
     // Respect reduced motion
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {

@@ -16,6 +16,7 @@ export function CTA() {
     const section = sectionRef.current;
     const content = contentRef.current;
     if (!section || !content) return;
+    if (window.matchMedia("(max-width: 767px), (pointer: coarse)").matches) return;
 
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
@@ -123,7 +124,7 @@ export function CTA() {
               justifyContent: "center",
               color: "rgba(204,45,45,0.75)",
               marginBottom: "1.5rem",
-              opacity: 0,
+              opacity: 1,
             }}
           >
             Get Started
@@ -131,7 +132,7 @@ export function CTA() {
 
           <h2
             className="display-section mb-6"
-            style={{ color: "#FFFFFF", opacity: 0 }}
+            style={{ color: "#FFFFFF" }}
           >
             Let&apos;s Engineer Sound<br />
             <span style={{ color: "var(--accent)" }}>That Performs</span>
@@ -139,12 +140,12 @@ export function CTA() {
 
           <p
             className="text-base md:text-lg leading-relaxed mb-10 max-w-xl mx-auto"
-            style={{ color: "rgba(255,255,255,0.5)", opacity: 0 }}
+            style={{ color: "rgba(255,255,255,0.5)" }}
           >
             Speak with our technical experts and build a system that delivers clarity, power and reliability.
           </p>
 
-          <div className="cta-btn" style={{ opacity: 0 }}>
+          <div className="cta-btn">
             <Button href="/contact" size="lg">
               Contact Our Team
               <ArrowRight size={18} className="btn-arrow" />

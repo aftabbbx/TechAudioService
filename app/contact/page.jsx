@@ -4,11 +4,13 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import { Map } from "@/components/contact/Map";
 import { InteriorHero } from "@/components/layout/InteriorHero";
 import styles from "./Contact.module.css";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "AudioTechServices | Contact",
-  description: "Contact AudioTechServices for professional audio consultations, system design, dealership enquiries, and technical support.",
-};
+export const metadata = buildPageMetadata({
+  title: "Contact Our Professional Audio Team",
+  description: "Contact AudioTechServices for professional audio system design, cinema sound, installation, product enquiries and technical support.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

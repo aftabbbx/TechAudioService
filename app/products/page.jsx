@@ -1,14 +1,16 @@
 import { CatalogHero } from "@/components/catalog/CatalogHero";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { getProductCatalog } from "@/lib/catalog";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = {
-  title: "AudioTechServices | Professional Audio Products",
-  description: "Browse our complete range of professional audio products — amplifiers, DSP processors, speakers, subwoofers, and speaker management systems.",
-};
+export const metadata = buildPageMetadata({
+  title: "Professional Audio Products",
+  description: "Browse professional power amplifiers, DSP processors, speakers, subwoofers and audio accessories engineered for commercial sound systems.",
+  path: "/products",
+});
 
 export default async function ProductsPage() {
   const { products, categories } = await getProductCatalog();
