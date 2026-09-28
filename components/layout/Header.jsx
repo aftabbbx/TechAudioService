@@ -90,7 +90,7 @@ export function Header() {
           borderColor: scrolled ? "var(--border)" : "var(--border-light)",
         }}
       >
-        <div className="container-custom flex items-center justify-between h-16 md:h-[68px]">
+        <div className="container-custom flex items-center justify-between h-[70px] md:h-[82px]">
           {/* Logo */}
           <Link
             href="/"
@@ -99,13 +99,13 @@ export function Header() {
             aria-label="AudioTechServices Home"
           >
             <Image
-              src="/logo.png"
+              src="/brand-logo.png"
               alt="AudioTechServices Logo"
-              width={1329}
-              height={1183}
-              sizes="(max-width: 767px) 190px, 220px"
+              width={491}
+              height={230}
+              sizes="(max-width: 767px) 96px, 126px"
               quality={82}
-              className="header-logo h-auto w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+              className="header-logo transition-transform duration-300 group-hover:scale-[1.03]"
             />
           </Link>
 

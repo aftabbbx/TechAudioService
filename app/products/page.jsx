@@ -18,7 +18,6 @@ export default async function ProductsPage() {
   return (
     <>
       <CatalogHero
-        kind="products"
         breadcrumb="Products"
         title="Professional Audio"
         accent="Products"

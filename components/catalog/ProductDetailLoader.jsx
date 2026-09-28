@@ -2,36 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { ProductDetail } from "./ProductDetail";
-import { cinemaProducts as staticCinemaProducts } from "@/data/cinemaProducts";
-import {
-  normalizeCinemaApiItem,
-  normalizeProductApiItem,
-  normalizeStaticCinemaProduct,
-} from "@/lib/catalog";
+import { normalizeProductApiItem } from "@/lib/catalog";
 import { getApiBaseUrl } from "@/lib/api-url";
 import styles from "./ProductDetailLoader.module.css";
 
 export function ProductDetailLoader({ basePath, slug, initialProduct = null }) {
-  const cinema = basePath === "/cinema";
-  const [product, setProduct] = useState(() => initialProduct || (cinema
-    ? staticCinemaProducts.map(normalizeStaticCinemaProduct).find((item) => item.slug === slug) || null
-    : null));
+  const [product, setProduct] = useState(initialProduct);
   const [loadState, setLoadState] = useState(initialProduct ? "ready" : "loading");
 
   useEffect(() => {
-    if (initialProduct) {
-      setProduct(initialProduct);
-      setLoadState("ready");
-      return undefined;
-    }
+    if (initialProduct) return undefined;
     let cancelled = false;
     const loadProduct = async () => {
-      setProduct(null);
-      setLoadState("loading");
       try {
         const apiUrl = getApiBaseUrl();
         const response = await fetch(
-          `${apiUrl}${cinema ? "/api/cinema" : `/api/products/${encodeURIComponent(slug)}`}`,
+          `${apiUrl}/api/products/${encodeURIComponent(slug)}`,
           { cache: "no-store" },
         );
         if (!response.ok) {
@@ -44,20 +30,12 @@ export function ProductDetailLoader({ basePath, slug, initialProduct = null }) {
         const data = await response.json();
         if (cancelled) return;
 
-        if (cinema) {
-          if (!Array.isArray(data.products)) throw new Error("Product response was invalid");
-          const products = data.products.map((item) => normalizeCinemaApiItem(item, apiUrl));
-          const match = products.find((item) => item.slug === slug);
-          setProduct(match || null);
-          setLoadState(match ? "ready" : "not-found");
-        } else {
-          if (!data.success || !data.product) {
-            setLoadState("not-found");
-            return;
-          }
-          setProduct(normalizeProductApiItem(data.product, apiUrl));
-          setLoadState("ready");
+        if (!data.success || !data.product) {
+          setLoadState("not-found");
+          return;
         }
+        setProduct(normalizeProductApiItem(data.product, apiUrl));
+        setLoadState("ready");
       } catch {
         if (!cancelled) setLoadState("error");
       }
@@ -65,7 +43,7 @@ export function ProductDetailLoader({ basePath, slug, initialProduct = null }) {
 
     loadProduct();
     return () => { cancelled = true; };
-  }, [basePath, cinema, initialProduct, slug]);
+  }, [initialProduct, slug]);
 
   if (loadState === "loading") {
     return (

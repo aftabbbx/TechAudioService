@@ -1,5 +1,6 @@
 import { ProductDetailLoader } from "@/components/catalog/ProductDetailLoader";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { siteConfig } from "@/data/site";
 import { getProductBySlug } from "@/lib/catalog";
 import { breadcrumbStructuredData, buildPageMetadata, productStructuredData } from "@/lib/seo";
 
@@ -19,8 +20,15 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const brandPrefix = product.brand
+    && product.brand.toLowerCase() !== siteConfig.name.toLowerCase()
+    && !product.name.toLowerCase().includes(product.brand.toLowerCase())
+    ? `${product.brand} `
+    : "";
+  const title = `${brandPrefix}${product.name}${product.model ? ` (${product.model})` : ""}`;
+
   return buildPageMetadata({
-    title: `${product.name}${product.model ? ` (${product.model})` : ""}`,
+    title,
     description: product.description || `${product.name} by AudioTechServices. Request product details, pricing and professional audio system support.`,
     path: `/products/${slug}`,
     image: product.image,
@@ -39,7 +47,7 @@ export default async function ProductDetailsPage({ params }) {
         sectionPath: "/products",
         item: { name: product.name, path: `/products/${slug}` },
       })} />}
-      <ProductDetailLoader basePath="/products" slug={slug} initialProduct={product} />
+      <ProductDetailLoader key={slug} basePath="/products" slug={slug} initialProduct={product} />
     </>
   );
 }

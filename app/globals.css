@@ -221,10 +221,14 @@ html {
    CUSTOM CURSOR (Desktop Only)
    ============================================ */
 
-.header-logo { max-height: 42px; max-width: 220px; }
+.header-logo { display: block; width: 126px; height: auto; }
+.footer-brand-logo,
+.dark-brand-logo {
+  filter: brightness(1.28) drop-shadow(0 0 6px rgba(255, 255, 255, 0.14));
+}
 
 @media (max-width: 767px) {
-  .header-logo { max-height: 40px; max-width: 190px; }
+  .header-logo { width: 96px; }
 }
 
 .custom-cursor {
@@ -417,9 +421,8 @@ body.modal-open { overflow: hidden; }
 
 .loader-logo-image {
   display: block;
-  width: clamp(156px, 17vw, 220px);
-  max-width: 58vw;
-  max-height: 190px;
+  width: clamp(150px, 16vw, 200px);
+  max-width: 60vw;
   height: auto;
   object-fit: contain;
 }
@@ -457,9 +460,8 @@ body.modal-open { overflow: hidden; }
 
 @media (max-width: 600px) {
   .loader-logo-image {
-    width: clamp(142px, 42vw, 172px);
-    max-width: 62vw;
-    max-height: 152px;
+    width: clamp(120px, 34vw, 145px);
+    max-width: 58vw;
   }
 
   .loader-line {

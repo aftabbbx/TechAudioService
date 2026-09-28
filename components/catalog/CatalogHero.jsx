@@ -2,11 +2,9 @@ import { Headphones } from "lucide-react";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import styles from "./CatalogHero.module.css";
 
-export function CatalogHero({ kind, breadcrumb, title, accent, description }) {
-  const cinema = kind === "cinema";
-
+export function CatalogHero({ breadcrumb, title, accent, description }) {
   return (
-    <section className={`${styles.hero} ${cinema ? styles.cinema : ""}`}>
+    <section className={styles.hero}>
       <div className={styles.glow} aria-hidden="true" />
       <div className={`container-custom ${styles.inner}`}>
         <div className={styles.copy}>

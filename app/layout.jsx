@@ -34,7 +34,7 @@ export const metadata = {
   applicationName: siteConfig.name,
   metadataBase: new URL(siteConfig.url),
   icons: {
-    icon: "/logo.png",
+    icon: "/brand-mark.png",
   },
   openGraph: {
     title: "Pro Audio Systems & Cinema Sound | AudioTechServices",
@@ -43,13 +43,13 @@ export const metadata = {
     siteName: "AudioTechServices",
     type: "website",
     locale: "en_IN",
-    images: [{ url: "/logo.png", alt: "AudioTechServices logo" }],
+    images: [{ url: "/brand-social.png", width: 1200, height: 630, alt: "AudioTechServices logo" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Pro Audio Systems & Cinema Sound | AudioTechServices",
     description: "Professional audio design, cinema sound, installation and integration.",
-    images: ["/logo.png"],
+    images: ["/brand-social.png"],
   },
   robots: { index: true, follow: true },
 };

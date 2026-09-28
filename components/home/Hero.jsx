@@ -334,18 +334,14 @@ export function Hero() {
                 {/* Large ATS logo mark */}
                 <div className="mb-8">
                   <Image
-                    src="/logo.png"
-                    alt="ATS"
-                    width={1329}
-                    height={1183}
-                    sizes="200px"
+                    src="/brand-logo.png"
+                    alt="AudioTechServices logo"
+                    width={491}
+                    height={230}
+                    sizes="(max-width: 639px) 128px, 160px"
                     quality={82}
-                    className=""
+                    className="dark-brand-logo h-auto w-[128px] max-w-full object-contain sm:w-[160px]"
                     style={{
-                      maxWidth: "200px",
-                      height: "auto",
-                      maxHeight: "80px",
-                      objectFit: "contain",
                       opacity: 0.95,
                     }}
                   />

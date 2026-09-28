@@ -3,13 +3,11 @@ import { ProductActions } from "./ProductActions";
 import { ProductImage } from "./ProductImage";
 import styles from "./ProductDetail.module.css";
 
-export function ProductDetail({ product, basePath, related = [] }) {
-  const isCinema = basePath === "/cinema";
-
+export function ProductDetail({ product, basePath }) {
   return (
     <main className={styles.page}>
       <div className={`container-custom ${styles.breadcrumb}`}>
-        <Breadcrumb items={[{ label: isCinema ? "Cinema" : "Products", href: basePath }, { label: product.name }]} />
+        <Breadcrumb items={[{ label: "Products", href: basePath }, { label: product.name }]} />
       </div>
 
       <section className={`container-custom ${styles.productHero}`}>

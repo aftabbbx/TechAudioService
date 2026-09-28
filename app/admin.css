@@ -117,12 +117,10 @@
   border-bottom: 1px solid var(--border);
 }
 
-.admin-logo-mark {
-  font-size: 1.1rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  display: flex;
-  gap: 1px;
+.admin-logo-image {
+  display: block;
+  width: 56px;
+  height: auto;
   flex-shrink: 0;
 }
 

@@ -132,11 +132,11 @@ export function PageLoader() {
       {/* Logo */}
       <div ref={logoRef} className="loader-logo relative z-10 flex flex-col items-center gap-3">
         <Image
-          src="/logo.png"
+          src="/brand-logo.png"
           alt="AudioTechServices"
-          width={1329}
-          height={1183}
-          sizes="220px"
+          width={491}
+          height={230}
+          sizes="(max-width: 600px) 180px, 250px"
           quality={82}
           priority
           className="loader-logo-image"

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { CatalogProductCard } from "./CatalogProductCard";
-import { normalizeCinemaApiItem, normalizeProductApiItem } from "@/lib/catalog";
+import { normalizeProductApiItem } from "@/lib/catalog";
 import { getApiBaseUrl } from "@/lib/api-url";
 import styles from "./CatalogListing.module.css";
 
@@ -25,31 +25,27 @@ export function CatalogListing({ products, categories, basePath, emptyLabel = "N
 
   useEffect(() => {
     let cancelled = false;
-    const cinema = basePath === "/cinema";
 
     const loadCatalog = async () => {
       try {
         const apiUrl = getApiBaseUrl();
-        const response = await fetch(`${apiUrl}${cinema ? "/api/cinema" : "/api/products"}`, { cache: "no-store" });
+        const response = await fetch(`${apiUrl}/api/products`, { cache: "no-store" });
         if (!response.ok) throw new Error("Catalog request failed");
         const data = await response.json();
         if (!data.success || !Array.isArray(data.products)) throw new Error("Catalog response was invalid");
         if (cancelled) return;
 
-        const normalize = cinema ? normalizeCinemaApiItem : normalizeProductApiItem;
-        const liveProducts = data.products.map((item) => normalize(item, apiUrl));
+        const liveProducts = data.products.map((item) => normalizeProductApiItem(item, apiUrl));
         setCatalogProducts(liveProducts);
         setLoadState("ready");
 
-        if (!cinema) {
-          const categoryResponse = await fetch(`${apiUrl}/api/categories`, { cache: "no-store" });
-          const categoryData = categoryResponse.ok ? await categoryResponse.json() : null;
-          if (!cancelled) {
-            setCategoryOptions(["All", ...new Set([
-              ...(Array.isArray(categoryData?.categories) ? categoryData.categories : []),
-              ...liveProducts.map((product) => product.category).filter(Boolean),
-            ])]);
-          }
+        const categoryResponse = await fetch(`${apiUrl}/api/categories`, { cache: "no-store" });
+        const categoryData = categoryResponse.ok ? await categoryResponse.json() : null;
+        if (!cancelled) {
+          setCategoryOptions(["All", ...new Set([
+            ...(Array.isArray(categoryData?.categories) ? categoryData.categories : []),
+            ...liveProducts.map((product) => product.category).filter(Boolean),
+          ])]);
         }
       } catch {
         if (!cancelled) {
@@ -98,7 +94,7 @@ export function CatalogListing({ products, categories, basePath, emptyLabel = "N
       ) : (
         <div className={styles.empty}>
           <span>{emptyLabel}</span>
-          {basePath !== "/cinema" && <p>Try adjusting your search or filter criteria.</p>}
+          <p>Try adjusting your search or filter criteria.</p>
         </div>
       )}
     </section>

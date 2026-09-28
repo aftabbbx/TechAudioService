@@ -5,7 +5,7 @@ import { ProductImage } from "./ProductImage";
 import styles from "./CatalogProductCard.module.css";
 
 export function CatalogProductCard({ product, basePath }) {
-  const highlights = product.specs.slice(0, basePath === "/cinema" ? 3 : 4).map((spec) => spec.value || spec.label);
+  const highlights = product.specs.slice(0, 4).map((spec) => spec.value || spec.label);
   return (
     <article className={styles.card}>
       <Link href={`${basePath}/${product.slug}`} className={styles.imageLink} aria-label={`View ${product.name}`}>

@@ -66,6 +66,9 @@ export function ContactForm() {
     const nextErrors = {};
     if (!form.name.trim()) nextErrors.name = "Full name is required";
     if (!form.phone.trim()) nextErrors.phone = "Phone number is required";
+    else if (!/^[+\d\s().-]+$/.test(form.phone.trim()) || !/^\d{7,15}$/.test(form.phone.replace(/\D/g, ""))) {
+      nextErrors.phone = "Enter a valid phone number";
+    }
     if (!form.email.trim()) nextErrors.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       nextErrors.email = "Enter a valid email";
@@ -75,8 +78,17 @@ export function ContactForm() {
     return nextErrors;
   };
 
+  const isReadyToSend = Object.keys(validate()).length === 0;
+
+  const validateField = (event) => {
+    const { name } = event.target;
+    const fieldError = validate()[name] || "";
+    setErrors((current) => ({ ...current, [name]: fieldError }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (status === "loading") return;
     const nextErrors = validate();
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
@@ -194,6 +206,7 @@ export function ContactForm() {
               required
               value={form.name}
               onChange={updateField}
+              onBlur={validateField}
               className={fieldClass}
               style={{ borderColor: errors.name ? "#ef4444" : "var(--border)", color: "var(--text)" }}
               placeholder="Your full name"
@@ -213,6 +226,7 @@ export function ContactForm() {
               autoComplete="tel"
               value={form.phone}
               onChange={updateField}
+              onBlur={validateField}
               className={fieldClass}
               style={{ borderColor: errors.phone ? "#ef4444" : "var(--border)", color: "var(--text)" }}
               placeholder="+91 92179 86241"
@@ -236,6 +250,7 @@ export function ContactForm() {
             required
             value={form.email}
             onChange={updateField}
+            onBlur={validateField}
             className={fieldClass}
             style={{ borderColor: errors.email ? "#ef4444" : "var(--border)", color: "var(--text)" }}
             placeholder="your@email.com"
@@ -271,6 +286,7 @@ export function ContactForm() {
             name="service"
             value={form.service}
             onChange={updateField}
+            onBlur={validateField}
             className={fieldClass}
             style={{ borderColor: errors.service ? "#ef4444" : "var(--border)", color: form.service ? "var(--text)" : "#8791a2" }}
             required
@@ -321,6 +337,7 @@ export function ContactForm() {
             required
             value={form.message}
             onChange={updateField}
+            onBlur={validateField}
             rows={5}
             className={`${fieldClass} resize-none`}
             style={{ borderColor: errors.message ? "#ef4444" : "var(--border)", color: "var(--text)" }}
@@ -331,10 +348,16 @@ export function ContactForm() {
           {errors.message && <p id="contact-message-error" className="text-xs text-red-500 mt-1 flex items-center gap-1"><AlertCircle size={12} />{errors.message}</p>}
         </div>
 
+        {!isReadyToSend && (
+          <p className="text-xs text-center" style={{ color: "var(--text-secondary)" }} aria-live="polite">
+            Complete the fields marked * with a valid phone number and email to enable Send Message.
+          </p>
+        )}
+
         <button
           type="submit"
-          disabled={status === "loading"}
-          className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg text-white transition-all duration-200 cursor-pointer disabled:opacity-50"
+          disabled={status === "loading" || !isReadyToSend}
+          className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold rounded-lg text-white transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ backgroundColor: "var(--accent)" }}
         >
           {status === "loading" ? (

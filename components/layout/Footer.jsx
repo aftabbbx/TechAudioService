@@ -10,15 +10,14 @@ const footerLinks = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   { label: "Products", href: "/products" },
-  { label: "Cinema", href: "/cinema" },
   { label: "Contact", href: "/contact" },
 ];
 
 const footerServices = [
-  "Amplifier Engineering",
-  "DSP Processing Solutions",
-  "Cinema Sound Systems",
-  "Professional Audio Integration",
+  { label: "Amplifier Engineering", href: "/services/amplifier-engineering" },
+  { label: "DSP Processing Solutions", href: "/services/dsp-processing-solutions" },
+  { label: "Cinema Sound Systems", href: "/services/cinema-sound-systems" },
+  { label: "Professional Audio Integration", href: "/services/professional-audio-integration" },
 ];
 
 export function Footer() {
@@ -40,16 +39,15 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="mb-5">
-              <Link href="/" aria-label="AudioTechServices Home">
+              <Link href="/" aria-label="AudioTechServices Home" className="inline-flex">
                 <Image
-                  src="/logo.png"
+                  src="/brand-logo.png"
                   alt="AudioTechServices Logo"
-                  width={1329}
-                  height={1183}
-                  sizes="(max-width: 767px) 160px, 220px"
+                  width={491}
+                  height={230}
+                  sizes="(max-width: 639px) 100px, 126px"
                   quality={82}
-                  className="w-auto object-contain"
-                  style={{ maxHeight: "45px" }}
+                  className="footer-brand-logo h-auto w-[100px] sm:w-[126px] object-contain"
                 />
               </Link>
             </div>
@@ -138,10 +136,14 @@ export function Footer() {
             </h3>
             <ul className="space-y-2.5">
               {footerServices.map((service) => (
-                <li key={service}>
-                  <span className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
-                    {service}
-                  </span>
+                <li key={service.href}>
+                  <Link
+                    href={service.href}
+                    className="text-sm transition-all duration-300 hover:text-white hover:translate-x-1 inline-block"
+                    style={{ color: "rgba(255,255,255,0.45)" }}
+                  >
+                    {service.label}
+                  </Link>
                 </li>
               ))}
             </ul>

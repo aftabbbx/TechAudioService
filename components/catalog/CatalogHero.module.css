@@ -8,12 +8,6 @@
     linear-gradient(116deg, #0b1835 0%, #102754 58%, #132d60 100%);
 }
 
-.cinema {
-  background:
-    radial-gradient(ellipse at 78% 42%, rgba(199, 55, 61, .2), transparent 35%),
-    linear-gradient(116deg, #0b1835 0%, #102754 58%, #132d60 100%);
-}
-
 .glow {
   position: absolute;
   z-index: -1;

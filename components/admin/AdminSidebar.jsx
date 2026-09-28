@@ -3,11 +3,11 @@
 import { useAdminAuth } from "./AdminAuthProvider";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import {
   LayoutDashboard,
   Package,
   Tags,
-  Film,
   LogOut,
   Menu,
   X,
@@ -19,7 +19,6 @@ const navItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: Tags },
-  { href: "/admin/cinema", label: "Cinema", icon: Film },
 ];
 
 export function AdminSidebar() {
@@ -53,11 +52,7 @@ export function AdminSidebar() {
       >
         {/* Logo */}
         <div className="admin-sidebar-logo">
-          <div className="admin-logo-mark">
-            <span style={{ color: "var(--logo-blue)" }}>A</span>
-            <span style={{ color: "var(--logo-red)" }}>T</span>
-            <span style={{ color: "var(--logo-gray)" }}>S</span>
-          </div>
+          <Image src="/brand-logo.png" alt="AudioTechServices logo" width={491} height={230} sizes="56px" className="admin-logo-image" />
           <div style={{ flex: 1, minWidth: 0 }}>
             <p className="admin-logo-title">Admin Panel</p>
             <p className="admin-logo-sub">AudioTechServices</p>

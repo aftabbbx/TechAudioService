@@ -89,14 +89,13 @@ export function MobileMenu({ isOpen, onClose, pathname }) {
           style={{ borderColor: "var(--border)" }}
         >
           <Image
-            src="/logo.png"
+            src="/brand-logo.png"
             alt="AudioTechServices Logo"
-            width={1329}
-            height={1183}
-            sizes="180px"
+            width={491}
+            height={230}
+            sizes="108px"
             quality={82}
-            className="h-auto w-auto object-contain"
-            style={{ maxHeight: "44px", maxWidth: "180px" }}
+            className="h-auto w-[108px] object-contain"
           />
           <button
             ref={closeRef}

@@ -3,7 +3,8 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { StatCard } from "@/components/ui/StatCard";
 import { Button } from "@/components/ui/Button";
 import { InteriorHero } from "@/components/layout/InteriorHero";
-import { Film, Building, Wrench, ArrowRight, Check } from "lucide-react";
+import Link from "next/link";
+import { AudioLines, Cpu, Film, Volume2, ArrowRight, Check, MoveUpRight } from "lucide-react";
 import styles from "./Services.module.css";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -15,19 +16,28 @@ export const metadata = buildPageMetadata({
 
 const mainServices = [
   {
-    icon: Film, title: "Cinema & Theatre Audio",
-    description: "Complete cinema audio solutions from screen speakers and subwoofers to surround systems and DSP management.",
-    points: ["Screen channel speaker systems", "Surround & immersive audio", "DSP speaker management", "Amplification systems"],
+    href: "/services/amplifier-engineering",
+    icon: Volume2, title: "Amplifier Engineering",
+    description: "A carefully planned amplifier chain helps a system perform with control, stability and dependable headroom.",
+    points: ["Amplifier and loudspeaker matching", "Rack and signal-flow planning", "System commissioning", "Diagnostics and service"],
   },
   {
-    icon: Building, title: "Commercial Installations",
-    description: "Professional audio systems for auditoriums, convention centres, houses of worship, and corporate environments.",
-    points: ["System design & engineering", "Speaker & amplifier installation", "Network audio infrastructure", "Control system integration"],
+    href: "/services/dsp-processing-solutions",
+    icon: Cpu, title: "DSP Processing Solutions",
+    description: "Coordinate signal routing, loudspeaker management and room tuning through a considered DSP setup.",
+    points: ["DSP setup and audio routing", "Loudspeaker processing", "Room-specific tuning", "Configuration support"],
   },
   {
-    icon: Wrench, title: "Maintenance & AMC",
-    description: "Comprehensive annual maintenance contracts and responsive technical support for installed audio systems.",
-    points: ["Preventive maintenance visits", "24/7 emergency support", "Firmware & software updates", "Performance optimization"],
+    href: "/services/cinema-sound-systems",
+    icon: Film, title: "Cinema Sound Systems",
+    description: "Bring screen channels, surround speakers, subwoofers and processing together for the room.",
+    points: ["Cinema speaker integration", "Surround and subwoofer planning", "Amplifier and DSP coordination", "Installation and upgrades"],
+  },
+  {
+    href: "/services/professional-audio-integration",
+    icon: AudioLines, title: "Professional Audio Integration",
+    description: "Connect audio sources, processing, amplification and loudspeakers into one usable venue system.",
+    points: ["End-to-end system planning", "Equipment and cabling integration", "Control and operation planning", "Commissioning and handover"],
   },
 ];
 
@@ -53,7 +63,7 @@ export default function ServicesPage() {
           <div className={styles.serviceGrid}>
             {mainServices.map((service, index) => (
               <AnimatedSection key={service.title} delay={index * 100}>
-                <article className={styles.serviceCard}>
+                <Link href={service.href} className={styles.serviceCard}>
                   <div className={styles.serviceCardTop}>
                     <div className={styles.serviceIcon}><service.icon size={23} /></div>
                     <span className={styles.serviceNumber}>{String(index + 1).padStart(2, "0")}</span>
@@ -65,7 +75,8 @@ export default function ServicesPage() {
                       <li key={point}><span><Check size={12} /></span>{point}</li>
                     ))}
                   </ul>
-                </article>
+                  <span className={styles.serviceLink}>Explore service <MoveUpRight size={15} aria-hidden="true" /></span>
+                </Link>
               </AnimatedSection>
             ))}
           </div>
