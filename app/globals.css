@@ -411,6 +411,17 @@ body.modal-open { overflow: hidden; }
   justify-content: center;
   flex-direction: column;
   pointer-events: all;
+  /* Reveal the site even if an animation frame is suspended in a mobile webview. */
+  animation: page-loader-failsafe 450ms ease-out 4.5s forwards;
+}
+
+@keyframes page-loader-failsafe {
+  to {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 .loader-logo {

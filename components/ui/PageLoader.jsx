@@ -12,45 +12,88 @@ export function PageLoader() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    // Only show on first visit per session
-    const hasLoaded = sessionStorage.getItem("ats-loaded-v2");
-    if (hasLoaded) return;
+    let showTimeout;
+    let animationTimeout;
+    let watchdogTimeout;
+    let hideTimeout;
+    let timeline;
+    let dismissed = false;
+
+    // A hard refresh on iOS can restart a webview while its previous loader
+    // animation is suspended. The page itself is already server-rendered, so
+    // skip the intro on reload and reveal it immediately.
+    const navigationType = window.performance?.getEntriesByType?.("navigation")?.[0]?.type;
+    const legacyReload = window.performance?.navigation?.type === 1;
+    if (navigationType === "reload" || legacyReload) {
+      try {
+        window.sessionStorage.setItem("ats-loaded-v2", "1");
+      } catch {
+        // Storage can be unavailable in private or embedded browser contexts.
+      }
+      return;
+    }
+
+    // Mark the session before animating so a refresh during the intro cannot
+    // trap the visitor in the loader again.
+    try {
+      if (window.sessionStorage.getItem("ats-loaded-v2")) return;
+      window.sessionStorage.setItem("ats-loaded-v2", "1");
+    } catch {
+      // Safari privacy modes can restrict storage. The visual watchdog below
+      // still guarantees the page is revealed.
+    }
 
     const isMobile = window.matchMedia("(max-width: 767px), (pointer: coarse)").matches;
 
     // Respect reduced motion
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) {
-      sessionStorage.setItem("ats-loaded-v2", "1");
-      return;
-    }
+    if (prefersReduced) return;
 
-    const showTimeout = setTimeout(() => setShow(true), 0);
-    document.body.style.overflow = "hidden";
+    const dismiss = (fade = true) => {
+      if (dismissed) return;
+      dismissed = true;
+      timeline?.kill();
+
+      const overlay = overlayRef.current;
+      if (!fade || !overlay) {
+        setShow(false);
+        return;
+      }
+
+      try {
+        gsap.to(overlay, {
+          opacity: 0,
+          duration: 0.25,
+          ease: "power1.out",
+          onComplete: () => setShow(false),
+        });
+        hideTimeout = setTimeout(() => setShow(false), 450);
+      } catch {
+        setShow(false);
+      }
+    };
+
+    showTimeout = setTimeout(() => setShow(true), 0);
 
     // Wait for refs to be available after setState
-    const timeout = setTimeout(() => {
+    animationTimeout = setTimeout(() => {
       const overlay = overlayRef.current;
       const logo = logoRef.current;
       const line = lineRef.current;
       const bar = progressBarRef.current;
 
-      if (!overlay || !logo) return;
+      if (!overlay || !logo) {
+        dismiss();
+        return;
+      }
 
-      const tl = gsap.timeline({
-        onComplete: () => {
-          sessionStorage.setItem("ats-loaded-v2", "1");
-          document.body.style.overflow = "";
-          // Brief delay before unmounting
-          setTimeout(() => setShow(false), 100);
-        },
-      });
+      timeline = gsap.timeline({ onComplete: () => dismiss(false) });
 
       if (isMobile) {
         gsap.set(logo, { opacity: 0, y: 12 });
         gsap.set(line, { scaleX: 0, opacity: 0, transformOrigin: "center" });
         gsap.set(bar, { scaleX: 0, transformOrigin: "left" });
-        tl.to(logo, { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" })
+        timeline.to(logo, { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" })
           .to(line, { scaleX: 1, opacity: 1, duration: 0.28, ease: "power2.out" }, "-=0.18")
           .to(bar, { scaleX: 1, duration: 0.3, ease: "power1.inOut" }, "-=0.08")
           .to(logo, { opacity: 0, y: -8, duration: 0.22, ease: "power1.in" }, "+=0.08")
@@ -64,7 +107,7 @@ export function PageLoader() {
       gsap.set(bar, { width: "0%" });
 
       // 0.2s — Logo reveals
-      tl.to(logo, {
+      timeline.to(logo, {
         opacity: 1,
         y: 0,
         filter: "blur(0px)",
@@ -110,13 +153,23 @@ export function PageLoader() {
         duration: 0.65,
         ease: "power4.inOut",
       }, "-=0.15");
-
     }, 50);
+
+    // Covers interrupted animation frames and browser/webview quirks on iOS.
+    watchdogTimeout = setTimeout(() => dismiss(), 4000);
+
+    const handlePageShow = (event) => {
+      if (event.persisted) dismiss(false);
+    };
+    window.addEventListener("pageshow", handlePageShow);
 
     return () => {
       clearTimeout(showTimeout);
-      clearTimeout(timeout);
-      document.body.style.overflow = "";
+      clearTimeout(animationTimeout);
+      clearTimeout(watchdogTimeout);
+      clearTimeout(hideTimeout);
+      window.removeEventListener("pageshow", handlePageShow);
+      timeline?.kill();
     };
   }, []);
 
