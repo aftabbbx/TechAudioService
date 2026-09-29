@@ -37,9 +37,10 @@
   animation: brand-scroll 76s linear infinite;
 }
 
-.viewport:hover .track,
-.viewport:focus-within .track {
-  animation-play-state: paused;
+@media (hover: hover) and (pointer: fine) {
+  .viewport:hover .track {
+    animation-play-state: paused;
+  }
 }
 
 .group {
