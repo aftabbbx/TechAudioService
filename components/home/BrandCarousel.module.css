@@ -34,7 +34,7 @@
 .track {
   display: flex;
   width: max-content;
-  animation: brand-scroll 32s linear infinite;
+  animation: brand-scroll 76s linear infinite;
 }
 
 .viewport:hover .track,
@@ -73,6 +73,11 @@
   object-position: center;
 }
 
+.darkLogo {
+  border-color: #000;
+  background: #000;
+}
+
 @keyframes brand-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -84,7 +89,7 @@
   }
 
   .track {
-    animation-duration: 24s;
+    animation-duration: 58s;
   }
 
   .logo {

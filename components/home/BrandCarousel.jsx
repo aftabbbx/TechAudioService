@@ -7,20 +7,27 @@ const brands = [
   { name: "JBL", image: "/uploads/home/untitled%20folder/Firefly%20%283%29.png", width: 1600, height: 900 },
   { name: "POPE Professional", image: "/uploads/home/untitled%20folder/Firefly%20%284%29.png", width: 659, height: 466 },
   { name: "A-Plus", image: "/uploads/home/untitled%20folder/Firefly%20%285%29.png", width: 1600, height: 533 },
+  { name: "SONODYNE", image: "/uploads/home/untitled%20folder/Untitled%20design.png", width: 1086, height: 362 },
+  { name: "RAK acoustics", image: "/uploads/home/untitled%20folder/file_0000000001708211a4a51a72b70181af.png", width: 1983, height: 793, dark: true },
+  { name: "FREEDEO", image: "/uploads/home/untitled%20folder/Untitled%20design%20%282%29.png", width: 2172, height: 724 },
+  { name: "GetD", image: "/uploads/home/untitled%20folder/Untitled%20design%20%283%29.png", width: 2172, height: 724 },
+  { name: "Harkness", image: "/uploads/home/untitled%20folder/Untitled%20design%20%284%29.png", width: 2172, height: 724 },
+  { name: "PULZ", image: "/uploads/home/untitled%20folder/pulz.png", width: 2172, height: 724 },
+  { name: "Galalite", image: "/uploads/home/untitled%20folder/galalite.png", width: 2172, height: 724 },
 ];
 
 function BrandGroup({ duplicate = false }) {
   return (
     <div className={styles.group} aria-hidden={duplicate || undefined}>
       {brands.map((brand) => (
-        <div className={styles.logo} key={brand.name}>
+        <div className={`${styles.logo} ${brand.dark ? styles.darkLogo : ""}`} key={brand.name}>
           <Image
             src={brand.image}
             alt={duplicate ? "" : brand.name}
             width={brand.width}
             height={brand.height}
             sizes="(max-width: 640px) 168px, 240px"
-            quality={80}
+            quality={75}
           />
         </div>
       ))}
