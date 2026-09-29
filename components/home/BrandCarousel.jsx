@@ -8,7 +8,6 @@ const brands = [
   { name: "POPE Professional", image: "/uploads/home/untitled%20folder/Firefly%20%284%29.png", width: 659, height: 466 },
   { name: "A-Plus", image: "/uploads/home/untitled%20folder/Firefly%20%285%29.png", width: 1600, height: 533 },
   { name: "SONODYNE", image: "/uploads/home/untitled%20folder/Untitled%20design.png", width: 1086, height: 362 },
-  { name: "RAK acoustics", image: "/uploads/home/untitled%20folder/file_0000000001708211a4a51a72b70181af.png", width: 1983, height: 793, dark: true },
   { name: "FREEDEO", image: "/uploads/home/untitled%20folder/Untitled%20design%20%282%29.png", width: 2172, height: 724 },
   { name: "GetD", image: "/uploads/home/untitled%20folder/Untitled%20design%20%283%29.png", width: 2172, height: 724 },
   { name: "Harkness", image: "/uploads/home/untitled%20folder/Untitled%20design%20%284%29.png", width: 2172, height: 724 },
