@@ -4,8 +4,7 @@ import { siteConfig } from "@/data/site";
 import { getProductBySlug } from "@/lib/catalog";
 import { breadcrumbStructuredData, buildPageMetadata, productStructuredData } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 30;
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;

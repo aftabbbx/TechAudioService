@@ -24,6 +24,15 @@ export function CatalogListing({ products, categories, basePath, emptyLabel = "N
   }, [catalogProducts, activeCategory, query]);
 
   useEffect(() => {
+    // Server-rendered products are already fresh within the catalog revalidation window.
+    // Avoid a second blocking API round trip on every page visit, especially on mobile.
+    if (products.length > 0) {
+      setCatalogProducts(products);
+      setCategoryOptions(categories);
+      setLoadState("ready");
+      return undefined;
+    }
+
     let cancelled = false;
 
     const loadCatalog = async () => {
@@ -58,7 +67,7 @@ export function CatalogListing({ products, categories, basePath, emptyLabel = "N
 
     loadCatalog();
     return () => { cancelled = true; };
-  }, [basePath, categories]);
+  }, [products, categories]);
 
   return (
     <section className={styles.section} id="catalog">

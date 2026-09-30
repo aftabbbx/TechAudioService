@@ -1,4 +1,7 @@
 .card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid rgba(20, 39, 76, .09);
   border-radius: 18px;
@@ -19,7 +22,7 @@
 .placeholder { position: relative; display: flex; flex-direction: column; align-items: center; color: var(--primary); }
 .placeholder span { font-family: var(--font-display); font-size: clamp(1.6rem,4vw,3rem); font-weight: 700; letter-spacing: -.05em; }
 .placeholder small { margin-top: 2px; color: var(--text-muted); font-size: .56rem; font-weight: 700; letter-spacing: .2em; }
-.content { padding: 20px 21px 16px; }
+.content { display: flex; flex: 1; flex-direction: column; padding: 20px 21px 16px; }
 .meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--accent); font-size: .67rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .model { overflow: hidden; color: #969eae; font-family: var(--font-mono); font-size: .68rem; letter-spacing: 0; text-overflow: ellipsis; white-space: nowrap; }
 .titleLink { color: inherit; text-decoration: none; }
@@ -28,7 +31,7 @@
 .description { display: -webkit-box; min-height: 3.35em; margin: 0; overflow: hidden; color: var(--text-secondary); font-size: .82rem; line-height: 1.65; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .highlights { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .highlights span { max-width: 100%; overflow: hidden; padding: 5px 8px; border: 1px solid #e8ebf1; border-radius: 6px; color: #647087; background: #f8f9fb; font-size: .62rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
-.footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding-top: 13px; border-top: 1px solid #edf0f4; }
+.footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 16px; border-top: 1px solid #edf0f4; }
 .detailsLink { display: inline-flex; align-items: center; gap: 7px; color: var(--primary); font-size: .78rem; font-weight: 700; text-decoration: none; }
 .detailsLink svg { transition: transform .2s ease; }
 .detailsLink:hover svg { transform: translate(3px,-3px); }

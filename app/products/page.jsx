@@ -3,8 +3,7 @@ import { ProductGrid } from "@/components/products/ProductGrid";
 import { getProductCatalog } from "@/lib/catalog";
 import { buildPageMetadata } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 30;
 
 export const metadata = buildPageMetadata({
   title: "Professional Audio Products",
