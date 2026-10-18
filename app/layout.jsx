@@ -4,7 +4,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { BackToTop } from "@/components/ui/BackToTop";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { PageLoader } from "@/components/ui/PageLoader";
 import { siteConfig } from "@/data/site";
@@ -64,14 +63,13 @@ export default async function RootLayout({ children }) {
     <html lang="en" className={`${manrope.variable} ${spaceGrotesk.variable}`}>
       <body className="min-h-screen flex flex-col" suppressHydrationWarning>
         {isAdmin ? (
-          // Admin: NO header, footer, cursor, scroll effects
+          // Admin: NO header, footer, or scroll effects
           <main className="flex-1">{children}</main>
         ) : (
           // Main site: full chrome
           <>
             <PageLoader />
             <SmoothScroll>
-              <CustomCursor />
               <ScrollProgress />
               <Header />
               <main className="flex-1">{children}</main>

@@ -11,7 +11,6 @@ const brands = [
   { name: "FREEDEO", image: "/uploads/home/untitled%20folder/Untitled%20design%20%282%29.png", width: 2172, height: 724 },
   { name: "GetD", image: "/uploads/home/untitled%20folder/Untitled%20design%20%283%29.png", width: 2172, height: 724 },
   { name: "Harkness", image: "/uploads/home/untitled%20folder/Untitled%20design%20%284%29.png", width: 2172, height: 724 },
-  { name: "PULZ", image: "/uploads/home/untitled%20folder/pulz.png", width: 2172, height: 724 },
   { name: "Galalite", image: "/uploads/home/untitled%20folder/galalite.png", width: 2172, height: 724 },
   { name: "Christe", image: "/uploads/home/untitled%20folder/chris.png", width: 2216, height: 709 },
 ];
